@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{pageTitle}}</title>
+  </head>
+  <body>
+    <p>Fetch this weeks weather
+      <form id="address-form">
+        <input type="text" name="address" placeholder="eg. Bundi, India">
+        <button type="button" name="button">fetch</button>
+      </form>
+
+      <script src="./../js/jquery-3.2.1.min.js"></script>
+      <script src="./../js/index.js"></script>
+    </p>
+    <p>
+      <ul>
+        <li>{{summary}}</li>
+        <li>{{date}}</li>
+        <li>It's currently: {{temperature}}°C</li>
+        <li>It feels like: {{apparentTemperature}}°C</li>
+        <li>Chance of rain: {{precipProbability}}%</li>
+        <li>Humidity: {{humidity}}%</li>
+        <li>Cloud coverage: {{cloudCover}}%</li>
+        <li>Pressure: {{pressure}}</li>
+      </ul>
+
+    </p>
+
+
+  </body>
+</html>
