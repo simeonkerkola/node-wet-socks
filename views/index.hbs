@@ -14,20 +14,23 @@
       <script src="./../js/jquery-3.2.1.min.js"></script>
       <script src="./../js/index.js"></script>
     </p>
-    <p>
-      <ul>
-        <li>{{summary}}</li>
-        <li>{{date}}</li>
-        <li>It's currently: {{temperature}}°C</li>
-        <li>It feels like: {{apparentTemperature}}°C</li>
-        <li>Chance of rain: {{precipProbability}}%</li>
-        <li>Humidity: {{humidity}}%</li>
-        <li>Cloud coverage: {{cloudCover}}%</li>
-        <li>Pressure: {{pressure}}</li>
-      </ul>
+    <div class="weather">
+      <p>{{address}}</p>
+      <p>{{date}}</p>
+      <p>{{summary}}</p>
 
-    </p>
+      <p>
+        <ul>
+          <li>It's currently: {{temperature}}°C</li>
+          <li>It feels like: {{apparentTemperature}}°C</li>
+          <li>Chance of rain: {{precipProbability}}%</li>
+          <li>Humidity: {{humidity}}%</li>
+          <li>Cloud coverage: {{cloudCover}}%</li>
+          <li>Pressure: {{pressure}}</li>
+        </ul>
+        {{ errorMessage}}
 
-
+      </p>
+    </div>
   </body>
 </html>

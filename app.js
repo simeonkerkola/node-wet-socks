@@ -20,38 +20,38 @@ app.use((req, res, next) => {
   next()
 })
 
-hbs.registerHelper('getWather', () => {
-
-})
 
 app.get('/', (req, res) => {
-  // res.render('index.hbs', {
-  //   pageTitle: 'Weather App',
-  //   message:
-  // })
 
   var encodedAddress = encodeURIComponent('Helsinki')
   var geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`
 
+  var array = []
   // http get request
-  axios.get(geocodeUrl).then((response) => {
+  var a = axios.get(geocodeUrl).then((response,reject) => {
     if (response.data.status ==='ZERO_RESULTS') throw new Error('Unable to find that address')
-
-    var addressData = []
 
     var fullAddress = response.data.results[0].formatted_address
     var lat = response.data.results[0].geometry.location.lat
     var lng = response.data.results[0].geometry.location.lng
     var weatherUrl = `https://api.darksky.net/forecast/${key}/${lat},${lng}`
 
-    console.log('Got the address')
+    array.push(fullAddress)
+
+    console.log(fullAddress)
     return axios.get(weatherUrl)
 
+  }).catch((error) => {
+    errorMessage = error.message
+    res.render('index.hbs', {errorMessage})
 
-  }).then((response) => {
+  }).then((response, reject) => {
+    console.log('Got the address')
+
     var weather = response.data
     var celsius = (temp) => ((temp - 32) / 1.8).toFixed(1)
 
+    var address = array[0]
     var date = new Date(weather.currently.time * 1000)
     var summary = weather.hourly.summary
     var temperature = celsius(weather.currently.temperature)
@@ -68,9 +68,7 @@ app.get('/', (req, res) => {
     //               `Temperature: ${celsius(hourly.temperature)}\n`)
     // })
     res.render('index.hbs', {
-      // fullAddress,
-      // lat,
-      // lng,
+      address,
       date,
       summary,
       temperature,
@@ -82,6 +80,7 @@ app.get('/', (req, res) => {
     })
 
   }).catch((error) => {
+
     if (error.response.status == 403) {
       errorMessage = ('Darksky API access forbidden.\n' +
                   'Did you register at https://darksky.net/dev/ ' +
@@ -91,6 +90,7 @@ app.get('/', (req, res) => {
     } else {
       errorMessage = error.message
     }
+    res.render('index.hbs', {errorMessage})
   })
 })
 
