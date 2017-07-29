@@ -3,11 +3,19 @@ const express = require('express')
 const hbs = require('hbs')
 const fs = require('fs')
 const axios = require('axios')
+const bodyParser = require('body-parser')
+const expressValidator = require('express-validator')
 
 const key = fs.readFileSync('./access-key.txt').toString();
 
 const port = process.env.PORT || 3000 // let heroku or vultr to configure port
 var app = express()
+
+app.set('view engine', 'hbs') // set the view engine for express
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(expressValidator())
+
 
 app.use((req, res, next) => {
   var now = new Date().toString()
@@ -20,10 +28,11 @@ app.use((req, res, next) => {
   next()
 })
 
-
 app.get('/', (req, res) => {
+  var addressInput = req.query.address
+  console.log('text:', addressInput)
 
-  var encodedAddress = encodeURIComponent('Helsinki')
+  var encodedAddress = encodeURIComponent(addressInput)
   var geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`
 
   var array = []
