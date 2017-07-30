@@ -5,6 +5,7 @@ const fs = require('fs')
 const axios = require('axios')
 const bodyParser = require('body-parser')
 const expressValidator = require('express-validator')
+const time = require('./time')
 
 const key = fs.readFileSync('./access-key.txt').toString();
 
@@ -29,7 +30,18 @@ app.use((req, res, next) => {
 })
 
 app.get('/', (req, res) => {
+  // // Check that the field is not empty
+  // req.checkBody('address', 'Address is required').notEmpty()
+  //
+  // // trim and escape the address field
+  // // req.sanitize('address').escape()
+  // // req.sanitize('address').trim()
+  //
+  // // run the validators
+  // var errors = req.getValidationResult()
+
   var addressInput = req.query.address
+
   console.log('text:', addressInput)
 
   var encodedAddress = encodeURIComponent(addressInput)
@@ -61,7 +73,9 @@ app.get('/', (req, res) => {
     var celsius = (temp) => ((temp - 32) / 1.8).toFixed(1)
 
     var address = array[0]
-    var date = new Date(weather.currently.time * 1000)
+    var localTime = time.timeNow((weather.currently.time + weather.offset * 3600) * 1000)
+    console.log(localTime)
+
     var summary = weather.hourly.summary
     var temperature = celsius(weather.currently.temperature)
     var apparentTemperature = celsius(weather.currently.apparentTemperature)
@@ -69,6 +83,7 @@ app.get('/', (req, res) => {
     var humidity = (weather.currently.humidity * 100).toFixed(0)
     var cloudCover = (weather.currently.cloudCover * 100).toFixed(0)
     var pressure = weather.currently.pressure.toFixed(2)
+
 
     // weather.hourly.data.forEach((hourly) => {
     //
@@ -78,7 +93,7 @@ app.get('/', (req, res) => {
     // })
     res.render('index.hbs', {
       address,
-      date,
+      localTime,
       summary,
       temperature,
       apparentTemperature,
