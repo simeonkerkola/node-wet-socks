@@ -28,6 +28,17 @@
           <li>Cloud coverage: {{cloudCover}}%</li>
           <li>Pressure: {{pressure}}</li>
         </ul>
+
+        {{#if showWeekly}}
+          <p>Hourly forecast</p>
+            {{#each hourlyTime}}
+              <ul>
+                <p>{{this.time}}</p>
+                <li>Temperature: {{this.temp}}°C</li>
+
+              </ul>
+            {{/each}}
+          {{/if}}
         {{ errorMessage}}
 
       </p>

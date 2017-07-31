@@ -42,8 +42,6 @@ app.get('/', (req, res) => {
 
   var addressInput = req.query.address
 
-  console.log('text:', addressInput)
-
   var encodedAddress = encodeURIComponent(addressInput)
   var geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`
 
@@ -73,7 +71,9 @@ app.get('/', (req, res) => {
     var celsius = (temp) => ((temp - 32) / 1.8).toFixed(1)
 
     var address = array[0]
-    var localTime = time.timeNow((weather.currently.time + weather.offset * 3600) * 1000)
+    var currentTime = weather.currently.time
+    var timeOffset = weather.offset
+    var localTime = time.timeNow((currentTime + timeOffset * 3600) * 1000)
     console.log(localTime)
 
     var summary = weather.hourly.summary
@@ -84,13 +84,16 @@ app.get('/', (req, res) => {
     var cloudCover = (weather.currently.cloudCover * 100).toFixed(0)
     var pressure = weather.currently.pressure.toFixed(2)
 
+    var hourlyData = weather.hourly.data
+    var hourlyTime = hourlyData.map((data) => {
+      return {
+        time: time.timeNow((data.time + timeOffset * 3600) * 1000),
+        temp: celsius(data.temperature)
+      }
+    })
+    console.log(hourlyTime)
 
-    // weather.hourly.data.forEach((hourly) => {
-    //
-    //   var hourlyTime = new Date(hourly.time * 1000)
-    //   res.write(`--- ${hourlyTime.getDate()}th At:  ${hourlyTime.getHours()} o'clock --- \n cloud coverage is about: ${(hourly.cloudCover * 100).toFixed(0)}% \n` +
-    //               `Temperature: ${celsius(hourly.temperature)}\n`)
-    // })
+
     res.render('index.hbs', {
       address,
       localTime,
@@ -100,7 +103,9 @@ app.get('/', (req, res) => {
       precipProbability,
       humidity,
       cloudCover,
-      pressure
+      pressure,
+      hourlyTime,
+      showWeekly: true
     })
 
   }).catch((error) => {
