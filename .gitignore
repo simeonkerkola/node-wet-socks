@@ -1,5 +1,6 @@
 node_modules/
 server.log
+access-key.txt
 
 ### Node ###
 

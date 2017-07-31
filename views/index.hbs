@@ -7,7 +7,7 @@
   <body>
     <p>Fetch this weeks weather
       <form action="/">
-        <input type="text" name="address" placeholder="eg. Bundi India">
+        <input type="text" name="address" placeholder="{{placeholder}}">
         <button type="submit">fetch</button>
       </form>
 
@@ -31,10 +31,14 @@
 
         {{#if showWeekly}}
           <p>Hourly forecast</p>
-            {{#each hourlyTime}}
+            {{#each hourlyWeather}}
               <ul>
                 <p>{{this.time}}</p>
+                <p>{{this.summary}}</p>
+
                 <li>Temperature: {{this.temp}}°C</li>
+                <li>Chance of rain: {{this.precipProbability}}%</li>
+                <li>Cloud cover: {{this.cloudCover}}%</li>
 
               </ul>
             {{/each}}
