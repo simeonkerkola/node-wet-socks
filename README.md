@@ -1,6 +1,6 @@
 # Web-weather
 ## Fetches weather for searched location
-**Live demo here: https://stark-stream-28422.herokuapp.com/**
+**Live demo here: https://sleepy-brook-21645.herokuapp.com/ **
 
 A Node.js based web application that interacts with Google Maps and Dark Sky
 
