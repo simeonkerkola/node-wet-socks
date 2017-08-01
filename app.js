@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
 
   let array = []
   // http get request
-  let a = axios.get(geocodeUrl).then((response,reject) => {
+  axios.get(geocodeUrl).then((response,reject) => {
     if (response.data.status ==='ZERO_RESULTS') throw new Error('Unable to find that address')
 
     let fullAddress = response.data.results[0].formatted_address
@@ -103,10 +103,10 @@ app.get('/', (req, res) => {
     let placeholder = [
       'eg. Bundi India',
       'eg. Medan Sumatra',
-      'eg. Kathmandu Nepal',
-      'eg. Vientiane Laos',
-      'eg. Kamakura Japan',
-      'Chiang Mai Thailand',
+      'eg. Thamel Katmandu 44600',
+      'eg. Vientiane',
+      'eg. Chigasaki Kanagawa 253-0061',
+      'eg. Chang Wat Chiang Mai',
     ]
 
     // nodemon --inspect-brk app.js
