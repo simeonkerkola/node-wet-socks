@@ -3,9 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>{{pageTitle}}</title>
+    <style>
+      body {font-family: Helvetica, sans-serif;}
+    </style>
   </head>
   <body>
-    <p>Fetch this weeks weather
+    <h1>{{pageTitle}}</h1>
+    <h3>Fetch this weeks weather</h3>
       <form action="/">
         <input type="text" name="address" placeholder="{{placeholder}}">
         <button type="submit">fetch</button>
@@ -15,6 +19,7 @@
       <script src="./../js/index.js"></script>
     </p>
     <div class="weather">
+      {{#unless errorMessage}}
       <p>{{address}}</p>
       <p>{{localTime}}</p>
       <p>{{summary}}</p>
@@ -31,19 +36,19 @@
 
         {{#if showWeekly}}
           <p>Hourly forecast</p>
-            {{#each hourlyWeather}}
-              <ul>
-                <p>{{this.time}}</p>
-                <p>{{this.summary}}</p>
+          {{#each hourlyWeather}}
+            <ul>
+              <p>{{this.time}}</p>
+              <p>{{this.summary}}</p>
+              <li>Temperature: {{this.temp}}°C</li>
+              <li>Chance of rain: {{this.precipProbability}}%</li>
+              <li>Cloud cover: {{this.cloudCover}}%</li>
+            </ul>
+          {{/each}}
+        {{/if}}
+      {{/unless}}
 
-                <li>Temperature: {{this.temp}}°C</li>
-                <li>Chance of rain: {{this.precipProbability}}%</li>
-                <li>Cloud cover: {{this.cloudCover}}%</li>
-
-              </ul>
-            {{/each}}
-          {{/if}}
-        {{ errorMessage}}
+      {{ errorMessage}}
 
       </p>
     </div>

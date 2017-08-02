@@ -9,7 +9,6 @@ const expressValidator = require('express-validator')
 const time = require('./time')
 
 const key = fs.readFileSync('./access-key.txt').toString();
-let errorMessage = ''
 
 const port = process.env.PORT || 3000 // let heroku or vultr to configure port
 let app = express()
@@ -42,14 +41,14 @@ app.get('/', (req, res) => {
   // // run the validators
   // let errors = req.getValidationResult()
 
-  let addressInput = req.query.address
+  const addressInput = req.query.address
 
   let encodedAddress = encodeURIComponent(addressInput)
   let geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`
 
   let array = []
   // http get request
-  axios.get(geocodeUrl).then((response,reject) => {
+  axios.get(geocodeUrl).then((response) => {
     if (response.data.status ==='ZERO_RESULTS') throw new Error('Unable to find that address')
 
     let fullAddress = response.data.results[0].formatted_address
@@ -65,11 +64,7 @@ app.get('/', (req, res) => {
 
     return axios.get(weatherUrl)
 
-  }).catch((error) => {
-    errorMessage = error.message
-    res.render('index.hbs', {errorMessage})
-
-  }).then((response, reject) => {
+  }).then((response) => {
     console.log('Got the address')
 
     let weather = response.data
@@ -123,21 +118,19 @@ app.get('/', (req, res) => {
       cloudCover,
       pressure,
       hourlyWeather,
+      pageTitle: 'Wet Socks',
       placeholder: placeholder[Math.floor((Math.random() * 7) + 1)],
       showWeekly: true
     })
 
-  }).catch((error) => {
-
-    if (error.response.status == 403) {
-      errorMessage = ('Darksky API access forbidden.\n' +
-                  'Did you register at https://darksky.net/dev/ ' +
-                  'and copied the key you got to a access-key.txt file?')
-    } else if (error.code === 'ENOTFOUND') {
+  }).catch((e) => {
+    let errorMessage = e.message
+    if (e.code === 'ENOTFOUND') {
         errorMessage = ('Unable to connect to API servers.')
-    } else {
-      errorMessage = error.message
+     } else {
+      errorMessage = e.message
     }
+    debugger
     console.log(errorMessage)
     res.render('index.hbs', {errorMessage})
   })
