@@ -14,6 +14,7 @@ const port = process.env.PORT || 3000 // let heroku or vultr to configure port
 let app = express()
 
 app.set('view engine', 'hbs') // set the view engine for express
+app.use(express.static(__dirname + '/public')) // folder for static pages
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(expressValidator())
@@ -73,7 +74,7 @@ app.get('/', (req, res) => {
     let address = array[0]
     let currentTime = weather.currently.time
     let timeOffset = weather.offset
-    let localTime = time.timeNow((currentTime + timeOffset * 3600) * 1000)
+    let localTime = time.timeNow(currentTime, timeOffset)
     console.log(localTime)
 
     let summary = weather.hourly.summary
@@ -87,7 +88,7 @@ app.get('/', (req, res) => {
     let hourlyData = weather.hourly.data
     let hourlyWeather = hourlyData.map((data) => {
       return {
-        time: time.timeNow((data.time + timeOffset * 3600) * 1000),
+        timeByHour: time.timeNow(data.time, timeOffset),
         summary: data.summary,
         temp: celsius(data.temperature),
         precipProbability: (data.precipProbability * 100).toFixed(0),
