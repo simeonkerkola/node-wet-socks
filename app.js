@@ -6,7 +6,7 @@ const fs = require('fs')
 const axios = require('axios')
 const bodyParser = require('body-parser')
 const expressValidator = require('express-validator')
-const time = require('./time')
+const time = require('./timeNow')
 
 const key = fs.readFileSync('./access-key.txt').toString();
 
