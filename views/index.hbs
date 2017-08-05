@@ -19,11 +19,10 @@
 
       {{#unless errorMessage}}
 
-        <h4>{{address}}</h4>
+        <p class="address">{{address}}</p>
         <p>{{localTime.day}} {{localTime.date}} {{localTime.month}}, {{localTime.hours}}:{{localTime.minutes}}</p>
         <p>{{summary}}</p>
 
-        <p>
           <ul class="list-group">
             <li class="list-group-item">It's currently: {{temperature}}°C</li>
             <li class="list-group-item">It feels like: {{apparentTemperature}}°C</li>
@@ -33,7 +32,7 @@
             <li class="list-group-item">Pressure: {{pressure}}</li>
           </ul>
 
-        <p>Hourly forecast</p>
+        <p class="hourly">Hourly forecast</p>
 
         {{#if showWeekly}}
 
@@ -56,7 +55,6 @@
         {{/if}}
 
       {{/unless}}
-      </p>
     </div>
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>

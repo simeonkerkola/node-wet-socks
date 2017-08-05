@@ -86,13 +86,13 @@ app.get('/', (req, res) => {
     let pressure = weather.currently.pressure.toFixed(2)
 
     let hourlyData = weather.hourly.data
-    let hourlyWeather = hourlyData.map((data) => {
+    let hourlyWeather = hourlyData.map((hourly) => {
       return {
-        timeByHour: time.timeNow(data.time, timeOffset),
-        summary: data.summary,
-        temp: celsius(data.temperature),
-        precipProbability: (data.precipProbability * 100).toFixed(0),
-        cloudCover: (data.cloudCover * 100).toFixed(0)
+        timeByHour: time.timeNow(hourly.time, timeOffset),
+        summary: hourly.summary,
+        temp: celsius(hourly.temperature),
+        precipProbability: (hourly.precipProbability * 100).toFixed(0),
+        cloudCover: (hourly.cloudCover * 100).toFixed(0)
       }
     })
 
