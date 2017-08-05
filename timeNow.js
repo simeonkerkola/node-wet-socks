@@ -8,7 +8,7 @@ const timeNow = (stamp, offset = 0) => {
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   const day = days[time.getUTCDay()]
   const date = time.getUTCDate()
-  const hours = time.getUTCHours()
+  const hours = ('0' + time.getUTCHours()).substr(-2)
   const minutes = ('0' + time.getUTCMinutes()).substr(-2)
   const seconds = ('0' + time.getUTCSeconds()).substr(-2)
   const localTime = {
