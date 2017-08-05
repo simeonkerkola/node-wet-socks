@@ -19,6 +19,9 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(expressValidator())
 
+hbs.registerHelper('getCurrentYear', () => {
+  return new Date().getFullYear()
+})
 
 app.use((req, res, next) => {
   let now = new Date().toString()
@@ -86,7 +89,9 @@ app.get('/', (req, res) => {
     let pressure = weather.currently.pressure.toFixed(2)
 
     let hourlyData = weather.hourly.data
-    let hourlyWeather = hourlyData.map((hourly) => {
+    let hourlyWeather = hourlyData
+    .splice(0, 17)    // get the first 18 hours only
+    .map((hourly) => {
       return {
         timeByHour: time.timeNow(hourly.time, timeOffset),
         summary: hourly.summary,
@@ -105,6 +110,11 @@ app.get('/', (req, res) => {
       'eg. Chang Wat Chiang Mai',
     ]
 
+    const links = {
+      homepage: 'http://smi.fyi',
+      wetSocksGithub: 'https://github.com/sssmi/wet-socks'
+    }
+
     // nodemon --inspect-brk app.js
     debugger;
 
@@ -119,6 +129,7 @@ app.get('/', (req, res) => {
       cloudCover,
       pressure,
       hourlyWeather,
+      links,
       pageTitle: 'Wet Socks',
       placeholder: placeholder[Math.floor((Math.random() * 7) + 1)],
       showWeekly: true

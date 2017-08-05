@@ -26,6 +26,7 @@
 
           <ul class="list-group">
             <li class="list-group-item">It's currently: {{temperature}}°C</li>
+            <li class="list-group-item">It's currently: {{temperature}}°C</li>
             <li class="list-group-item">It feels like: {{apparentTemperature}}°C</li>
             <li class="list-group-item">Chance of rain: {{precipProbability}}%</li>
             <li class="list-group-item">Humidity: {{humidity}}%</li>
@@ -56,6 +57,8 @@
         {{/if}}
 
       {{/unless}}
+
+      <p class="text-muted">© <a href={{links.homepage}}>Simeon Kerkola</a> {{getCurrentYear}} Source Code available under MIT license <a href="{{links.wetSocksGithub}}">here</a></p>
     </div>
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
