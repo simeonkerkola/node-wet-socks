@@ -7,11 +7,12 @@ h1 {
 }
 
 body {
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .container {
   width: 100%;
+  max-width: 550px;
 }
 
 .address {
@@ -19,13 +20,29 @@ body {
   margin-top: 20px;
 }
 
+.list-group {
+    margin-bottom: 30px;
+  }
+
 .hourly{
   font-size: 20px;
   margin-top: 40px;
+}
+
+.hourly-time {
+  font-size: 17px;
 }
 
 .form-control {
   width: 100%;
   color: #000;
   font-size: 15px;
+}
+
+.list-group {
+  max-width: 450px;
+}
+
+.shout-out {
+  font-size: 12px;
 }

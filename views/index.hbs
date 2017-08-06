@@ -43,7 +43,7 @@
             {{#each hourlyWeather}}
 
               <ul class="list-group">
-                <p>{{this.timeByHour.day}} {{this.timeByHour.date}}, {{this.timeByHour.hours}}:{{this.timeByHour.minutes}}</p>
+                <p class="hourly-time"> {{this.timeByHour.day}} {{this.timeByHour.date}}, {{this.timeByHour.hours}}:{{this.timeByHour.minutes}}</p>
                 <p>{{this.summary}}</p>
                 <li class="list-group-item">Temperature: {{this.temp}}°C</li>
                 <li class="list-group-item">Chance of rain: {{this.precipProbability}}%</li>
@@ -58,7 +58,8 @@
 
       {{/unless}}
 
-      <p class="text-muted">© <a href={{links.homepage}}>Simeon Kerkola</a> {{getCurrentYear}} Source Code available under MIT license <a href="{{links.wetSocksGithub}}">here</a></p>
+      <p class="text-muted">© <a href={{links.homepage}}>Simeon Kerkola</a> {{getCurrentYear}} Source Code available under MIT license <a href="{{links.wetSocksGithub}}">here.</a>
+      <span class="shout-out">Powered by <a href="https://darksky.net/poweredby/">Dark Sky</a></p></span>
     </div>
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
