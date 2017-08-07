@@ -20,7 +20,14 @@ body {
   margin-top: 20px;
 }
 
+.address-error {
+  color: #d9230f;
+  font-size: 20px;
+  margin: 30px 0 100px 0;
+}
+
 .list-group {
+    max-width: 520px;
     margin-bottom: 30px;
   }
 
@@ -37,10 +44,6 @@ body {
   width: 100%;
   color: #000;
   font-size: 15px;
-}
-
-.list-group {
-  max-width: 450px;
 }
 
 .shout-out {

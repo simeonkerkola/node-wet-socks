@@ -10,8 +10,8 @@ const time = require('./timeNow')
 
 const key = fs.readFileSync('./access-key.txt').toString();
 
-const port = process.env.PORT || 3000 // let heroku or vultr to configure port
-let app = express()
+const port = process.env.PORT || 3000 // const heroku or vultr to configure port
+const app = express()
 
 app.set('view engine', 'hbs') // set the view engine for express
 app.use(express.static(__dirname + '/public')) // folder for static pages
@@ -24,8 +24,8 @@ hbs.registerHelper('getCurrentYear', () => {
 })
 
 app.use((req, res, next) => {
-  let now = new Date().toString()
-  let log = `${now}: ${req.method} ${req.url}`
+  const now = new Date().toString()
+  const log = `${now}: ${req.method} ${req.url}`
 
   console.log(log)
   fs.appendFile('server.log', log + 'n', (err) => {
@@ -43,22 +43,22 @@ app.get('/', (req, res) => {
   // // req.sanitize('address').trim()
   //
   // // run the validators
-  // let errors = req.getValidationResult()
+  // const errors = req.getValidationResult()
 
   const addressInput = req.query.address
 
-  let encodedAddress = encodeURIComponent(addressInput)
-  let geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`
+  const encodedAddress = encodeURIComponent(addressInput)
+  const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`
 
-  let array = []
+  const array = []
   // http get request
   axios.get(geocodeUrl).then((response) => {
     if (response.data.status ==='ZERO_RESULTS') throw new Error('Unable to find that address')
 
-    let fullAddress = response.data.results[0].formatted_address
-    let lat = response.data.results[0].geometry.location.lat
-    let lng = response.data.results[0].geometry.location.lng
-    let weatherUrl = `https://api.darksky.net/forecast/${key}/${lat},${lng}`
+    const fullAddress = response.data.results[0].formatted_address
+    const lat = response.data.results[0].geometry.location.lat
+    const lng = response.data.results[0].geometry.location.lng
+    const weatherUrl = `https://api.darksky.net/forecast/${key}/${lat},${lng}`
 
     array.push(fullAddress)
 
@@ -71,25 +71,24 @@ app.get('/', (req, res) => {
   }).then((response) => {
     console.log('Got the address')
 
-    let weather = response.data
-    let celsius = (temp) => ((temp - 32) / 1.8).toFixed(1)
+    const current = response.data.currently
+    const celsius = (temp) => ((temp - 32) / 1.8).toFixed(1)
 
-    let address = array[0]
-    let currentTime = weather.currently.time
-    let timeOffset = weather.offset
-    let localTime = time.timeNow(currentTime, timeOffset)
-    console.log(localTime)
+    const address = array[0]
+    const currentTime = current.time
+    const timeOffset = response.data.offset
 
-    let summary = weather.hourly.summary
-    let temperature = celsius(weather.currently.temperature)
-    let apparentTemperature = celsius(weather.currently.apparentTemperature)
-    let precipProbability = (weather.currently.precipProbability * 100).toFixed(0)
-    let humidity = (weather.currently.humidity * 100).toFixed(0)
-    let cloudCover = (weather.currently.cloudCover * 100).toFixed(0)
-    let pressure = weather.currently.pressure.toFixed(2)
+    const localTime = time.timeNow(currentTime, timeOffset)
 
-    let hourlyData = weather.hourly.data
-    let hourlyWeather = hourlyData
+    const summary = response.data.hourly.summary
+    const temperature = celsius(current.temperature)
+    const apparentTemperature = celsius(current.apparentTemperature)
+    const precipProbability = (current.precipProbability * 100).toFixed(0)
+    const humidity = (current.humidity * 100).toFixed(0)
+    const cloudCover = (current.cloudCover * 100).toFixed(0)
+    const pressure = current.pressure.toFixed(2)
+
+    const hourlyWeather = response.data.hourly.data
     .splice(0, 17)    // get the first 18 hours only
     .map((hourly) => {
       return {
@@ -101,13 +100,16 @@ app.get('/', (req, res) => {
       }
     })
 
-    let placeholder = [
+    const cities = [
       'eg. Bundi India',
-      'eg. Medan Sumatra',
+      'eg. Market Blvd, Sacramento, CA',
       'eg. Thamel Katmandu 44600',
-      'eg. Vientiane',
+      'eg. 1 Rue Charles Porta, 76600 Le Havre, France',
       'eg. Chigasaki Kanagawa 253-0061',
       'eg. Chang Wat Chiang Mai',
+      'eg. Praia de Belas, Porto Alegre - RS, Brazil',
+      'eg. Geylang East Ave 3, Singapore 389731',
+      'eg. Chicalim, Vasco, South Goa, Goa 403711, India'
     ]
 
     const links = {
@@ -131,8 +133,8 @@ app.get('/', (req, res) => {
       hourlyWeather,
       links,
       pageTitle: 'Wet Socks',
-      placeholder: placeholder[Math.floor((Math.random() * 7) + 1)],
-      showWeekly: true
+      placeholder: cities[Math.floor((Math.random() * 9) + 1)],
+      onHourly: true
     })
 
   }).catch((e) => {
@@ -144,7 +146,7 @@ app.get('/', (req, res) => {
     }
     debugger
     console.log(errorMessage)
-    res.render('index.hbs', {errorMessage})
+    res.render('index.hbs', {errorMessage: 'Unable to get the weather'})
   })
 })
 

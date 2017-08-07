@@ -18,6 +18,10 @@
         <button type="submit" class="btn btn-info">fetch</button>
       </form>
 
+      {{#if errorMessage}}
+          <p class="address-error">{{errorMessage}}</p>
+      {{/if}}
+
       {{#unless errorMessage}}
 
         <p class="address">{{address}}</p>
@@ -25,7 +29,6 @@
         <p>{{summary}}</p>
 
           <ul class="list-group">
-            <li class="list-group-item">It's currently: {{temperature}}°C</li>
             <li class="list-group-item">It's currently: {{temperature}}°C</li>
             <li class="list-group-item">It feels like: {{apparentTemperature}}°C</li>
             <li class="list-group-item">Chance of rain: {{precipProbability}}%</li>
@@ -36,7 +39,7 @@
 
         <p class="hourly">Hourly forecast</p>
 
-        {{#if showWeekly}}
+        {{#if onHourly}}
 
           <table class="table table-hover">
 

@@ -1,3 +1,5 @@
+"use strict"
+
 const timeNow = (stamp, offset = 0) => {
   // if time < 1000
   const timestamp = (stamp + offset * 3600) * 1000
