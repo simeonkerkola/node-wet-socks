@@ -2,7 +2,7 @@
 ### Global weather search app
 **Live demo here: https://wet-socks.herokuapp.com/**
 
-A Node.js based web application that interacts with Google Maps and Dark Sky
+A Nodejs based web application that interacts with Google Maps and Dark Sky
 
 ### Install
 * Fork repo `$ git clone https://github.com/sssmi/node-weather-app.git`

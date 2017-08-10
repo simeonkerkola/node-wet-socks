@@ -45,11 +45,12 @@ app.get('/', (req, res) => {
   // // run the validators
   // const errors = req.getValidationResult()
 
-  const addressInput = req.query.address
+  let addressInput = req.query.address
+  if (addressInput == null) addressInput = 'vaasankatu helsinki'
 
   const encodedAddress = encodeURIComponent(addressInput)
   const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`
-
+  debugger
   const array = []
   // http get request
   axios.get(geocodeUrl).then((response) => {
@@ -132,7 +133,6 @@ app.get('/', (req, res) => {
       pressure,
       hourlyWeather,
       links,
-      pageTitle: 'Wet Socks',
       placeholder: cities[Math.floor((Math.random() * 9) + 1)],
       onHourly: true
     })
