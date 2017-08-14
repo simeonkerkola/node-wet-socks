@@ -10,7 +10,7 @@ const expressValidator = require('express-validator')
 
 const time = require('./timeNow')
 
-const key = fs.readFileSync('./access-key.txt').toString()
+const key = fs.readFileSync('./access-key').toString().trim()
 
 const port = process.env.PORT || 3000 // const heroku or vultr to configure port
 const app = express()
@@ -21,7 +21,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(expressValidator())
 
-hbs.registerHelper('getCurrentYear', () => { new Date().getFullYear() })
+hbs.registerHelper('getCurrentYear', () => new Date().getFullYear())
 
 app.use((req, res, next) => {
   const now = new Date().toString()

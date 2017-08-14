@@ -1,6 +1,7 @@
 node_modules/
 server.log
-access-key.txt
+access-key
+.eslintrc.js
 
 ### Node ###
 
@@ -85,8 +86,3 @@ $RECYCLE.BIN/
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
-
-playground/
-old-app/
-test.js
-.eslint.js

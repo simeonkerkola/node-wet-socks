@@ -12,7 +12,11 @@ body {
 
 .container {
   width: 100%;
-  max-width: 550px;
+  max-width: 520px;
+}
+
+.form-group {
+    position: relative;
 }
 
 .address {
@@ -27,7 +31,7 @@ body {
 }
 
 .list-group {
-    max-width: 520px;
+    max-width: 447px;
     margin-bottom: 30px;
   }
 
@@ -41,12 +45,17 @@ body {
 }
 
 .form-control {
-  min-width: 455px;
+  min-width: 390px;
   width: 100%;
   color: #000;
   font-size: 15px;
+  padding-right: 30px;
+}
+
+.text-muted {
+  font-size: 14px;
 }
 
 .shout-out {
-  font-size: 12px;
+  font-size: 11px;
 }
