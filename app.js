@@ -123,6 +123,7 @@ app.get('/', (req, res) => {
       pressure,
       hourlyWeather,
       links,
+      pageTitle: 'Wet Socks',
       placeholder: cities[Math.floor((Math.random() * 9) + 1)],
       onHourly: true,
     })
