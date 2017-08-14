@@ -1,36 +1,33 @@
-// WEATHER APP
-"use strict"
+
+'use strict'
+
 const express = require('express')
 const hbs = require('hbs')
 const fs = require('fs')
 const axios = require('axios')
 const bodyParser = require('body-parser')
 const expressValidator = require('express-validator')
+
 const time = require('./timeNow')
 
-const key = fs.readFileSync('./access-key.txt').toString();
+const key = fs.readFileSync('./access-key.txt').toString()
 
 const port = process.env.PORT || 3000 // const heroku or vultr to configure port
 const app = express()
 
 app.set('view engine', 'hbs') // set the view engine for express
-app.use(express.static(__dirname + '/public')) // folder for static pages
+app.use(express.static(`${__dirname}/public`)) // folder for static pages
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(expressValidator())
 
-hbs.registerHelper('getCurrentYear', () => {
-  return new Date().getFullYear()
-})
+hbs.registerHelper('getCurrentYear', () => { new Date().getFullYear() })
 
 app.use((req, res, next) => {
   const now = new Date().toString()
   const log = `${now}: ${req.method} ${req.url}`
 
   console.log(log)
-  fs.appendFile('server.log', log + 'n', (err) => {
-    if (err) console.log('Unable to append server.log')
-  })
   next()
 })
 
@@ -50,11 +47,11 @@ app.get('/', (req, res) => {
 
   const encodedAddress = encodeURIComponent(addressInput)
   const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`
-  debugger
+
   const array = []
   // http get request
   axios.get(geocodeUrl).then((response) => {
-    if (response.data.status ==='ZERO_RESULTS') throw new Error('Unable to find that address')
+    if (response.data.status === 'ZERO_RESULTS') throw new Error('Unable to find that address')
 
     const fullAddress = response.data.results[0].formatted_address
     const lat = response.data.results[0].geometry.location.lat
@@ -65,15 +62,13 @@ app.get('/', (req, res) => {
 
     // nodemon --inspect-brk app.js
     // opera://inspect/
-    debugger;
 
     return axios.get(weatherUrl)
-
   }).then((response) => {
     console.log('Got the address')
 
     const current = response.data.currently
-    const celsius = (temp) => ((temp - 32) / 1.8).toFixed(1)
+    const celsius = temp => ((temp - 32) / 1.8).toFixed(1)
 
     const address = array[0]
     const currentTime = current.time
@@ -90,16 +85,14 @@ app.get('/', (req, res) => {
     const pressure = current.pressure.toFixed(2)
 
     const hourlyWeather = response.data.hourly.data
-    .splice(0, 17)    // get the first 18 hours only
-    .map((hourly) => {
-      return {
+      .splice(0, 17) // get the first 18 hours only
+      .map(hourly => ({
         timeByHour: time.timeNow(hourly.time, timeOffset),
         summary: hourly.summary,
         temp: celsius(hourly.temperature),
         precipProbability: (hourly.precipProbability * 100).toFixed(0),
-        cloudCover: (hourly.cloudCover * 100).toFixed(0)
-      }
-    })
+        cloudCover: (hourly.cloudCover * 100).toFixed(0),
+      }))
 
     const cities = [
       'eg. Bundi India',
@@ -110,16 +103,13 @@ app.get('/', (req, res) => {
       'eg. Chang Wat Chiang Mai',
       'eg. Praia de Belas, Porto Alegre - RS, Brazil',
       'eg. Geylang East Ave 3, Singapore 389731',
-      'eg. Chicalim, Vasco, South Goa, Goa 403711, India'
+      'eg. Chicalim, Vasco, South Goa, Goa 403711, India',
     ]
 
     const links = {
       homepage: 'http://smi.fyi',
-      wetSocksGithub: 'https://github.com/sssmi/wet-socks'
+      wetSocksGithub: 'https://github.com/sssmi/wet-socks',
     }
-
-    // nodemon --inspect-brk app.js
-    debugger;
 
     res.render('index.hbs', {
       address,
@@ -134,19 +124,17 @@ app.get('/', (req, res) => {
       hourlyWeather,
       links,
       placeholder: cities[Math.floor((Math.random() * 9) + 1)],
-      onHourly: true
+      onHourly: true,
     })
-
   }).catch((e) => {
     let errorMessage = e.message
     if (e.code === 'ENOTFOUND') {
-        errorMessage = ('Unable to connect to API servers.')
-     } else {
+      errorMessage = ('Unable to connect to API servers.')
+    } else {
       errorMessage = e.message
     }
-    debugger
-    console.log(errorMessage)
-    res.render('index.hbs', {errorMessage: 'Unable to get the weather'})
+    console.log(errorMessage);
+    res.render('index.hbs', { errorMessage: 'Unable to get the weather' })
   })
 })
 
