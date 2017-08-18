@@ -11,10 +11,6 @@ const expressValidator = require('express-validator')
 const time = require('./timeNow')
 
 const key = fs.readFileSync('./access-key').toString().trim()
-const links = {
-  homepage: 'http://smi.fyi',
-  wetSocksGithub: 'https://github.com/sssmi/wet-socks',
-}
 const cities = [
   'eg. Bundi India',
   'eg. Market Blvd, Sacramento, CA',
@@ -37,6 +33,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(expressValidator())
 
 hbs.registerHelper('getCurrentYear', () => new Date().getFullYear())
+hbs.registerHelper('homepage', () => 'http://smi.fyi')
+hbs.registerHelper('wetSocksGithub', () => 'https://github.com/sssmi/wet-socks')
 
 app.use((req, res, next) => {
   const now = new Date().toString()
@@ -48,7 +46,6 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res) => {
   res.render('index.hbs', {
-    links,
     pageTitle: 'Wet Socks',
     placeholder: cities[Math.floor((Math.random() * 9) + 1)],
     onHourly: true,
@@ -66,7 +63,7 @@ app.get('/weather', (req, res) => {
   // // run the validators
   // const errors = req.getValidationResult()
 
-  let addressInput = req.query.address
+  const addressInput = req.query.address
 
   const encodedAddress = encodeURIComponent(addressInput)
   const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`
@@ -128,7 +125,6 @@ app.get('/weather', (req, res) => {
       cloudCover,
       pressure,
       hourlyWeather,
-      links,
       pageTitle: 'Wet Socks',
       placeholder: cities[Math.floor((Math.random() * 9) + 1)],
       showWeather: true,
