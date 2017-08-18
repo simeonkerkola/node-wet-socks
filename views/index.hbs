@@ -1,80 +1,83 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{pageTitle}}</title>
-    <link rel='stylesheet' href='/bootstrap-3.3.7-dist/css/bootstrap.min.css' />
-    <link rel='stylesheet' href='/bootstrap-3.3.7-dist/css/custom.css' />
-  </head>
-  <body>
-    <div class="container">
-      <h1>Wet Socks</h1>
-      <h3>Fetch this weeks weather</h3>
-      <form action="/" class="form-inline">
-        <div class="form-group">
-          <input type="text" class="form-control" name="address" placeholder="{{placeholder}}">
-        </div>
-        <button type="submit" class="btn btn-info">fetch</button>
-      </form>
 
-      {{#if errorMessage}}
-          <p class="address-error">{{errorMessage}}</p>
-      {{/if}}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{pageTitle}}</title>
+  <link rel='stylesheet' href='/bootstrap-3.3.7-dist/css/bootstrap.min.css' />
+  <link rel='stylesheet' href='/bootstrap-3.3.7-dist/css/custom.css' />
+</head>
 
-      {{#unless errorMessage}}
+<body>
+  <div class="container">
+    <a href="/" class="title"><h1>Wet Socks</h1></a>
+    <h3>Fetch this weeks weather</h3>
+    <form action="/weather" class="form-inline">
+      <div class="form-group">
+        <input type="text" class="form-control" name="address" placeholder="{{placeholder}}">
+      </div>
+      <button type="submit" class="btn btn-info">fetch</button>
+    </form>
 
-        <p class="address">{{address}}</p>
-        <p>{{localTime.day}} {{localTime.date}} {{localTime.month}}, {{localTime.hours}}:{{localTime.minutes}}</p>
-        <p>{{summary}}</p>
+    {{#if errorMessage}}
+    <p class="address-error">{{errorMessage}}</p>
+    {{/if}} {{#if showWeather}} {{#unless errorMessage}}
 
-          <ul class="list-group">
-            <li class="list-group-item">It's currently: {{temperature}}°C</li>
-            <li class="list-group-item">It feels like: {{apparentTemperature}}°C</li>
-            <li class="list-group-item">Chance of rain: {{precipProbability}}%</li>
-            <li class="list-group-item">Humidity: {{humidity}}%</li>
-            <li class="list-group-item">Cloud coverage: {{cloudCover}}%</li>
-            <li class="list-group-item">Pressure: {{pressure}}</li>
-          </ul>
+    <p class="address">{{address}}</p>
+    <p>{{localTime.day}} {{localTime.date}} {{localTime.month}}, {{localTime.hours}}:{{localTime.minutes}}</p>
+    <p>{{summary}}</p>
 
-        <p class="hourly">Hourly forecast</p>
+    <ul class="list-group">
+      <li class="list-group-item">It's currently: {{temperature}}°C</li>
+      <li class="list-group-item">It feels like: {{apparentTemperature}}°C</li>
+      <li class="list-group-item">Chance of rain: {{precipProbability}}%</li>
+      <li class="list-group-item">Humidity: {{humidity}}%</li>
+      <li class="list-group-item">Cloud coverage: {{cloudCover}}%</li>
+      <li class="list-group-item">Pressure: {{pressure}}</li>
+    </ul>
 
-        {{#if onHourly}}
+    <p class="hourly">Hourly forecast</p>
 
-          <table class="table table-hover">
 
-            {{#each hourlyWeather}}
 
-              <ul class="list-group">
-                <p class="hourly-time"> {{this.timeByHour.day}} {{this.timeByHour.date}}, {{this.timeByHour.hours}}:{{this.timeByHour.minutes}}</p>
-                <p>{{this.summary}}</p>
-                <li class="list-group-item">Temperature: {{this.temp}}°C</li>
-                <li class="list-group-item">Chance of rain: {{this.precipProbability}}%</li>
-                <li class="list-group-item">Cloud cover: {{this.cloudCover}}%</li>
-              </ul>
+    <table class="table table-hover">
 
-            {{/each}}
+      {{#each hourlyWeather}}
 
-  <p>Keep your feet dry</p>
-          </table>
+      <ul class="list-group">
+        <p class="hourly-time"> {{this.timeByHour.day}} {{this.timeByHour.date}}, {{this.timeByHour.hours}}:{{this.timeByHour.minutes}}</p>
+        <p>{{this.summary}}</p>
+        <li class="list-group-item">Temperature: {{this.temp}}°C</li>
+        <li class="list-group-item">Chance of rain: {{this.precipProbability}}%</li>
+        <li class="list-group-item">Cloud cover: {{this.cloudCover}}%</li>
+      </ul>
 
-        {{/if}}
+      {{/each}}
 
-      {{/unless}}
 
-      <p class="text-muted">© <a href={{links.homepage}}>Simeon Kerkola</a> {{getCurrentYear}} Source Code available under MIT license <a href="{{links.wetSocksGithub}}">here.</a>
+    </table>
+
+    {{/unless}} {{/if}}
+    
+    <p>Keep your feet dry</p>
+
+    <p class="text-muted">© <a href={{links.homepage}}>Simeon Kerkola</a> {{getCurrentYear}} Source Code available under MIT license <a href="{{links.wetSocksGithub}}">here.</a>
       <br><span class="shout-out">Powered by <a href="https://darksky.net/poweredby/">Dark Sky</a></p></span>
-    </div>
-    <script src="/js/jquery-3.2.1.min.js"></script>
-    <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-    <script src="/js/index.js"></script>
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  </div>
+  <script src="/js/jquery-3.2.1.min.js"></script>
+  <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+  <script src="/js/index.js"></script>
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
     ga('create', 'UA-102566898-2', 'auto');
     ga('send', 'pageview');
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>

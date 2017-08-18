@@ -5,6 +5,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, body {
 h1 {
   font-size: 40px;
 }
+a.title:hover {
+  text-decoration: none;
+}
 
 body {
   font-size: 16px;
@@ -13,6 +16,10 @@ body {
 .container {
   width: 100%;
   max-width: 520px;
+}
+
+.form-inline {
+  margin-bottom: 20px;
 }
 
 .form-group {

@@ -11,6 +11,21 @@ const expressValidator = require('express-validator')
 const time = require('./timeNow')
 
 const key = fs.readFileSync('./access-key').toString().trim()
+const links = {
+  homepage: 'http://smi.fyi',
+  wetSocksGithub: 'https://github.com/sssmi/wet-socks',
+}
+const cities = [
+  'eg. Bundi India',
+  'eg. Market Blvd, Sacramento, CA',
+  'eg. Thamel Katmandu 44600',
+  'eg. 1 Rue Charles Porta, 76600 Le Havre, France',
+  'eg. Chigasaki Kanagawa 253-0061',
+  'eg. Chang Wat Chiang Mai',
+  'eg. Praia de Belas, Porto Alegre - RS, Brazil',
+  'eg. Geylang East Ave 3, Singapore 389731',
+  'eg. Chicalim, Vasco, South Goa, Goa 403711, India',
+]
 
 const port = process.env.PORT || 3000 // const heroku or vultr to configure port
 const app = express()
@@ -32,6 +47,15 @@ app.use((req, res, next) => {
 })
 
 app.get('/', (req, res) => {
+  res.render('index.hbs', {
+    links,
+    pageTitle: 'Wet Socks',
+    placeholder: cities[Math.floor((Math.random() * 9) + 1)],
+    onHourly: true,
+  })
+})
+
+app.get('/weather', (req, res) => {
   // // Check that the field is not empty
   // req.checkBody('address', 'Address is required').notEmpty()
   //
@@ -43,7 +67,6 @@ app.get('/', (req, res) => {
   // const errors = req.getValidationResult()
 
   let addressInput = req.query.address
-  if (addressInput == null) addressInput = 'vaasankatu helsinki'
 
   const encodedAddress = encodeURIComponent(addressInput)
   const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`
@@ -94,23 +117,6 @@ app.get('/', (req, res) => {
         cloudCover: (hourly.cloudCover * 100).toFixed(0),
       }))
 
-    const cities = [
-      'eg. Bundi India',
-      'eg. Market Blvd, Sacramento, CA',
-      'eg. Thamel Katmandu 44600',
-      'eg. 1 Rue Charles Porta, 76600 Le Havre, France',
-      'eg. Chigasaki Kanagawa 253-0061',
-      'eg. Chang Wat Chiang Mai',
-      'eg. Praia de Belas, Porto Alegre - RS, Brazil',
-      'eg. Geylang East Ave 3, Singapore 389731',
-      'eg. Chicalim, Vasco, South Goa, Goa 403711, India',
-    ]
-
-    const links = {
-      homepage: 'http://smi.fyi',
-      wetSocksGithub: 'https://github.com/sssmi/wet-socks',
-    }
-
     res.render('index.hbs', {
       address,
       localTime,
@@ -125,7 +131,7 @@ app.get('/', (req, res) => {
       links,
       pageTitle: 'Wet Socks',
       placeholder: cities[Math.floor((Math.random() * 9) + 1)],
-      onHourly: true,
+      showWeather: true,
     })
   }).catch((e) => {
     let errorMessage = e.message
