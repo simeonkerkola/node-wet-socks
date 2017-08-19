@@ -17,20 +17,41 @@ body {
   font-size: 16px;
 }
 
+ul {
+
+}
+
+li {
+  background-color: #fff;
+}
+
 .container {
-  width: 100%;
-  max-width: 520px;
+  margin: 15px;
 }
 
 .form-inline {
   margin-bottom: 20px;
 }
 
+form {
+  flex-grow: 1;
+  display: flex;
+}
+
 .form-group {
-    position: relative;
+    padding: 10px 0 10px 0;
+}
+
+.btn-info {
+  transition: background .3s ease;
+}
+
+.btn-info:hover {
+  background: #1F4C69;
 }
 
 .address {
+  font-weight: 350;
   font-size: 30px;
   margin-top: 20px;
 }
@@ -41,13 +62,39 @@ body {
   margin: 30px 0 0 0;
 }
 
-.list-group {
-    max-width: 447px;
-    margin-bottom: 30px;
+.big-text {
+  font-weight: 300;
+  font-size: 19px;
+}
+
+.list-group-current {
+    display: flex;
+    margin-bottom: 10px;
+    padding-left: 0px;
+  }
+  .list-group-current-item {
+    min-width: 33%;
+    display: flex;
+    padding: 10px;
+
   }
 
+.list-group {
+    display: flex;
+    margin-bottom: 10px;
+  }
+
+
+.list-group-item {
+  /*for hover background-color: #f6faff; */
+  width: 20%;
+  display: flex;
+  padding: 10px;
+  border: none;
+}
+
 .hourly{
-  font-size: 20px;
+  font-size: 22px;
   margin-top: 40px;
 }
 
@@ -56,11 +103,10 @@ body {
 }
 
 .form-control {
-  min-width: 390px;
   width: 100%;
   color: #000;
   font-size: 15px;
-  padding-right: 30px;
+  margin-right: 10px;
 }
 
 .text-muted {
@@ -69,4 +115,10 @@ body {
 
 .shout-out {
   font-size: 11px;
+}
+
+@media {
+  .form-inline .form-control {
+      width: 70%;
+    }
 }
