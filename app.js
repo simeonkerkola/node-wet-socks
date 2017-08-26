@@ -47,7 +47,7 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   res.render('index.hbs', {
     pageTitle: 'Wet Socks',
-    placeholder: cities[Math.floor((Math.random() * 9) + 1)],
+    placeholder: cities[Math.floor(Math.random() * 9)],
     onHourly: true,
   })
 })
