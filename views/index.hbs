@@ -26,7 +26,7 @@
 
     <p class="address">{{address}}</p>
     <div class="big-text">
-      <p>{{localTime.day}} {{localTime.date}} {{localTime.month}}, {{localTime.hours}}:{{localTime.minutes}}</p>
+      <p>{{localTime}}</p>
       <p>{{summary}}</p>
 
       <ul class="list-group-current">
@@ -60,7 +60,7 @@
       {{#each hourlyWeather}}
 
       <ul class="list-group">
-        <li class="list-group-item"><p class="hourly-time"> {{this.timeByHour.day}} {{this.timeByHour.date}} {{this.timeByHour.hours}}:{{this.timeByHour.minutes}}</p></li>
+        <li class="list-group-item"><p class="hourly-time">{{this.timeByHour}}</p></li>
         <li class="list-group-item">{{this.summary}}</li>
         <li class="list-group-item">{{this.temp}}°C</li>
         <li class="list-group-item">{{this.precipProbability}}%</li>

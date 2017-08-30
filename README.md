@@ -4,6 +4,11 @@
 
 A Nodejs based web application that interacts with Google Maps and Dark Sky
 
+**What id does, and what it should be able to do:**
+- [x] Reject bad addresses
+- [ ] Get weather according to geolocation
+
+
 ### Install
 * Fork repo `$ git clone https://github.com/sssmi/node-weather-app.git`
 * Install the dependencies `$ npm install`

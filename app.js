@@ -7,8 +7,7 @@ const fs = require('fs')
 const axios = require('axios')
 const bodyParser = require('body-parser')
 const expressValidator = require('express-validator')
-
-const time = require('./timeNow')
+const moment = require('moment')
 
 const key = fs.readFileSync('./access-key').toString().trim()
 const cities = [
@@ -91,10 +90,10 @@ app.get('/weather', (req, res) => {
     const celsius = temp => ((temp - 32) / 1.8).toFixed(1)
 
     const address = array[0]
-    const currentTime = current.time
-    const timeOffset = response.data.offset
+    const currentTime = current.time * 1000
+    const timeOffset = response.data.offset * 3600
 
-    const localTime = time.timeNow(currentTime, timeOffset)
+    const localTime = moment(currentTime + timeOffset).format('dddd Do MMM, H:mm')
 
     const summary = response.data.hourly.summary
     const temperature = celsius(current.temperature)
@@ -105,9 +104,9 @@ app.get('/weather', (req, res) => {
     const pressure = current.pressure.toFixed(2)
 
     const hourlyWeather = response.data.hourly.data
-      .splice(0, 17) // get the first 18 hours only
+      .splice(1, 25) // from next hour to 24h onwards
       .map(hourly => ({
-        timeByHour: time.timeNow(hourly.time, timeOffset),
+        timeByHour: moment((hourly.time * 1000) + timeOffset).format('ddd H:mm'),
         summary: hourly.summary,
         temp: celsius(hourly.temperature),
         precipProbability: (hourly.precipProbability * 100).toFixed(0),
