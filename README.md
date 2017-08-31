@@ -5,6 +5,7 @@
 A Nodejs based web application that interacts with Google Maps and Dark Sky
 
 **What id does, and what it should be able to do:**
+- [x] Get weather by address
 - [x] Reject bad addresses
 - [ ] Get weather according to geolocation
 
