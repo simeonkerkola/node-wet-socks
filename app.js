@@ -51,7 +51,7 @@ app.get('/', (req, res) => {
   })
 })
 
-app.get('/weather', (req, res) => {
+app.get('/weather', async (req, res) => {
   // // Check that the field is not empty
   // req.checkBody('address', 'Address is required').notEmpty()
   //
@@ -62,48 +62,29 @@ app.get('/weather', (req, res) => {
   // // run the validators
   // const errors = req.getValidationResult()
 
-  const addressInput = req.query.address
+  try {
+    const addressInput = req.query.address
 
-  const encodedAddress = encodeURIComponent(addressInput)
-  const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`
+    const encodedAddress = encodeURIComponent(addressInput)
+    const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`
 
-  const array = []
-  // http get request
-  axios.get(geocodeUrl).then((response) => {
-    if (response.data.status === 'ZERO_RESULTS') throw new Error('Unable to find that address')
+    // http get request
+    const geocode = await axios.get(geocodeUrl)
 
-    const fullAddress = response.data.results[0].formatted_address
-    const lat = response.data.results[0].geometry.location.lat
-    const lng = response.data.results[0].geometry.location.lng
+    if (geocode.data.status === 'ZERO_RESULTS') throw new Error('Unable to find that address')
+
+    const address = geocode.data.results[0].formatted_address
+    const lat = geocode.data.results[0].geometry.location.lat
+    const lng = geocode.data.results[0].geometry.location.lng
     const weatherUrl = `https://api.darksky.net/forecast/${key}/${lat},${lng}`
 
-    array.push(fullAddress)
+    const weather = await axios.get(weatherUrl)
 
-    // nodemon --inspect-brk app.js
-    // opera://inspect/
-
-    return axios.get(weatherUrl)
-  }).then((response) => {
-    console.log('Got the address')
-
-    const current = response.data.currently
+    const current = weather.data.currently
     const celsius = temp => ((temp - 32) / 1.8).toFixed(1)
-
-    const address = array[0]
     const currentTime = current.time * 1000
-    const timeOffset = response.data.offset * 3600
-
-    const localTime = moment(currentTime + timeOffset).format('dddd Do MMM, H:mm')
-
-    const summary = response.data.hourly.summary
-    const temperature = celsius(current.temperature)
-    const apparentTemperature = celsius(current.apparentTemperature)
-    const precipProbability = (current.precipProbability * 100).toFixed(0)
-    const humidity = (current.humidity * 100).toFixed(0)
-    const cloudCover = (current.cloudCover * 100).toFixed(0)
-    const pressure = current.pressure.toFixed(2)
-
-    const hourlyWeather = response.data.hourly.data
+    const timeOffset = weather.data.offset * 3600
+    const hourlyWeather = weather.data.hourly.data
       .splice(1, 25) // from next hour to 24h onwards
       .map(hourly => ({
         timeByHour: moment((hourly.time * 1000) + timeOffset).format('ddd H:mm'),
@@ -115,29 +96,28 @@ app.get('/weather', (req, res) => {
 
     res.render('index.hbs', {
       address,
-      localTime,
-      summary,
-      temperature,
-      apparentTemperature,
-      precipProbability,
-      humidity,
-      cloudCover,
-      pressure,
+      localTime: moment(currentTime + timeOffset).format('dddd Do MMM, H:mm'),
+      summary: weather.data.hourly.summary,
+      temperature: celsius(current.temperature),
+      apparentTemperature: celsius(current.apparentTemperature),
+      precipProbability: (current.precipProbability * 100).toFixed(0),
+      humidity: (current.humidity * 100).toFixed(0),
+      cloudCover: (current.cloudCover * 100).toFixed(0),
+      pressure: current.pressure.toFixed(2),
       hourlyWeather,
       pageTitle: 'Wet Socks',
       placeholder: cities[Math.floor((Math.random() * 9) + 1)],
       showWeather: true,
     })
-  }).catch((e) => {
+  } catch (e) {
     let errorMessage = e.message
     if (e.code === 'ENOTFOUND') {
       errorMessage = ('Unable to connect to API servers.')
     } else {
       errorMessage = e.message
     }
-    console.log(errorMessage);
-    res.render('index.hbs', { errorMessage: 'Unable to get the weather' })
-  })
+    res.render('index.hbs', { errorMessage })
+  }
 })
 
 app.listen(port, () => {
