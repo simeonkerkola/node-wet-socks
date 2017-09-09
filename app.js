@@ -82,12 +82,12 @@ app.get('/weather', async (req, res) => {
 
     const current = weather.data.currently
     const celsius = temp => ((temp - 32) / 1.8).toFixed(1)
-    const currentTime = current.time * 1000
     const timeOffset = weather.data.offset * 3600
+    const currentTime = current.time + timeOffset
     const hourlyWeather = weather.data.hourly.data
       .splice(1, 25) // from next hour to 24h onwards
       .map(hourly => ({
-        timeByHour: moment((hourly.time * 1000) + timeOffset).format('ddd H:mm'),
+        timeByHour: moment.utc((hourly.time + timeOffset) * 1000).format('ddd H:mm'),
         summary: hourly.summary,
         temp: celsius(hourly.temperature),
         precipProbability: (hourly.precipProbability * 100).toFixed(0),
@@ -96,7 +96,7 @@ app.get('/weather', async (req, res) => {
 
     res.render('index.hbs', {
       address,
-      localTime: moment(currentTime + timeOffset).format('dddd Do MMM, H:mm'),
+      localTime: moment.utc(currentTime * 1000).format('dddd Do MMM, H:mm'),
       summary: weather.data.hourly.summary,
       temperature: celsius(current.temperature),
       apparentTemperature: celsius(current.apparentTemperature),
