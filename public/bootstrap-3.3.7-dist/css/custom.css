@@ -1,5 +1,5 @@
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, body {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+* {
+  font-family: sans-serif, Arial;
   color: #000;
 }
 h1 {
@@ -14,25 +14,20 @@ h2 {
 }
 
 body {
-  font-size: 16px;
+  font-weight: 100;
+  font-size: 11px;
 }
 
-ul {
-
-}
-
-li {
-  background-color: #fff;
-}
 
 .container {
-  margin: 15px;
-  min-height: 80vh;
+  min-width: 300px;
+
   overflow-y: scroll;
 }
 
 .form-inline {
   margin-bottom: 20px;
+  width: 100%;
 }
 
 form {
@@ -54,8 +49,8 @@ form {
 }
 
 .address {
-  font-weight: 350;
-  font-size: 30px;
+  font-weight: 400;
+  font-size: 2.1em;
   margin-top: 20px;
 }
 
@@ -65,44 +60,28 @@ form {
   margin: 30px 0 0 0;
 }
 
+.hourly {
+  margin-top: 30px;
+}
+
 .big-text {
   font-weight: 300;
-  font-size: 19px;
+  font-size: 1.7rem;
 }
 
-.list-group-current {
-  display: flex;
+.weather-col {
+  background-color: #fff;
+  padding: 5px;
+}
+
+.row {
   margin-bottom: 10px;
-  padding-left: 0px;
-}
-.list-group-current-item {
-  min-width: 33%;
-  display: flex;
-  padding: 10px;
-
+  min-width: 300px;
+  padding-left: inherit;
 }
 
-.list-group {
-  display: flex;
-  margin-bottom: 10px;
-}
-
-
-.list-group-item {
-  /*for hover background-color: #f6faff; */
-  width: 20%;
-  display: flex;
-  padding: 10px;
-  border: none;
-}
-
-.hourly{
-  font-size: 22px;
-  margin-top: 40px;
-}
-
-.hourly-time {
-  font-size: 17px;
+.first-row, .hourly-time, .hourly-summary {
+  font-size: 0.9rem;
 }
 
 .form-control {
@@ -119,15 +98,51 @@ form {
 }
 
 .text-muted {
-  font-size: 14px;
+  font-size: 1rem;
 }
 
 .shout-out {
-  font-size: 11px;
+  font-size: 0.8rem;
 }
 
 @media {
   .form-inline .form-control {
     width: 70%;
   }
+
+@media (min-width: 500px) {
+  body {
+    font-size: 14px;
+  }
+  .first-row, .hourly-time, .hourly-summary {
+    font-size: 14px;
+  }
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+  .first-row, .hourly-time, .hourly-summary {
+    font-size: 16px;
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  body {
+    font-size: 18px;
+  }
+  .first-row, .hourly-time, .hourly-summary {
+    font-size: 18px;
+  }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { body {
+  font-size: 19px;
+}
+.first-row, .hourly-time, .hourly-summary {
+  font-size: 19px;
 }

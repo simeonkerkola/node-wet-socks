@@ -16,7 +16,7 @@
     <div class="form-group">
       <form action="/weather" class="form-inline">
         <input type="text" class="form-control" name="address" autofocus placeholder="{{placeholder}}">
-        <button type="submit" class="btn btn-info">fetch</button>
+        <button type="submit" class="btn btn-info">Go!</button>
       </form>
     </div>
 
@@ -28,59 +28,59 @@
     <div class="big-text">
       <p>{{localTime}}</p>
       <p>{{summary}}</p>
-
-      <ul class="list-group-current">
-        <li class="list-group-current-item">It's currently: {{temperature}}°C</li>
-        <li class="list-group-current-item">It feels like: {{apparentTemperature}}°C</li>
-        <li class="list-group-current-item">Chance of rain: {{precipProbability}}%</li>
-      </ul>
-      <ul class="list-group-current">
-        <li class="list-group-current-item">Humidity: {{humidity}}%</li>
-        <li class="list-group-current-item">Cloud coverage: {{cloudCover}}%</li>
-        <li class="list-group-current-item">Pressure: {{pressure}}</li>
-      </ul>
     </div>
+
+    <div class="row">
+      <div class="col-xs-4 weather-col">It's currently: {{temperature}}°C</div>
+      <div class="col-xs-4 weather-col">It feels like: {{apparentTemperature}}°C</div>
+      <div class="col-xs-4 weather-col">Chance of rain: {{precipProbability}}%</div>
+
+    </div>
+    <div class="row">
+      <div class="col-xs-4 weather-col">Humidity: {{humidity}}%</div>
+      <div class="col-xs-4 weather-col">Cloud coverage: {{cloudCover}}%</div>
+      <div class="col-xs-4 weather-col">Pressure: {{pressure}}</div>
+    </div>
+
+
+
 
 
     <p class="hourly">Hourly forecast</p>
 
-
-
-    <table class="table table-hover">
-      <div class="big-text">
-        <ul class="list-group">
-          <li class="list-group-item">Time</li>
-          <li class="list-group-item">Summary</li>
-          <li class="list-group-item">Temp</li>
-          <li class="list-group-item">Chance of rain</li>
-          <li class="list-group-item">Cloud cover</li>
-        </ul>
-      </div>
+    <div class="row">
+      <div class="col-xs-3 weather-col first-row">Time</div>
+      <div class="col-xs-3 weather-col first-row">Summary</div>
+      <div class="col-xs-2 weather-col first-row">Temp</div>
+      <div class="col-xs-1 weather-col first-row">☂️</div>
+      <div class="col-xs-1 weather-col first-row">☁️</div>
+      <!-- <div class="col-xs-1 weather-col first-row">6</div> -->
+    </div>
 
       {{#each hourlyWeather}}
 
-      <ul class="list-group">
-        <li class="list-group-item"><p class="hourly-time">{{this.timeByHour}}</p></li>
-        <li class="list-group-item">{{this.summary}}</li>
-        <li class="list-group-item">{{this.temp}}°C</li>
-        <li class="list-group-item">{{this.precipProbability}}%</li>
-        <li class="list-group-item">{{this.cloudCover}}%</li>
-      </ul>
+
+
+      <div class="row">
+        <div class="col-xs-3 weather-col hourly-time">{{this.timeByHour}}</div>
+        <div class="col-xs-3 weather-col hourly-summary">{{this.summary}}</div>
+        <div class="col-xs-2 weather-col">{{this.temp}}°C</div>
+        <div class="col-xs-1 weather-col">{{this.precipProbability}}%</div>
+        <div class="col-xs-1 weather-col">{{this.cloudCover}}%</div>
+        <!-- <div class="col-xs-1 weather-col">6</div> -->
+      </div>
 
       {{/each}}
 
-
-    </table>
-
     {{/unless}} {{/if}}
-</div>
-    <footer class="footer">
-      <h2>Keep your feet dry</h2>
+  </div>
+  <footer class="footer">
+    <h2>Keep your feet dry</h2>
 
-      <p class="text-muted">© <a href={{homepage}}>Simeon Kerkola</a> {{getCurrentYear}} Source Code available under MIT license <a href="{{wetSocksGithub}}">here.</a>
-        <br><span class="shout-out">Powered by <a href="https://darksky.net/poweredby/">Dark Sky</a></p></span>
+    <p class="text-muted">© <a href={{homepage}}>Simeon Kerkola</a> {{getCurrentYear}} Source Code available under MIT license <a href="{{wetSocksGithub}}">here.</a>
+      <br><span class="shout-out">Powered by <a href="https://darksky.net/poweredby/">Dark Sky</a></p></span>
 
-      </footer>
+    </footer>
 
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
