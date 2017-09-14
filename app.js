@@ -76,12 +76,12 @@ app.get('/weather', async (req, res) => {
     const address = geocode.data.results[0].formatted_address
     const lat = geocode.data.results[0].geometry.location.lat
     const lng = geocode.data.results[0].geometry.location.lng
-    const weatherUrl = `https://api.darksky.net/forecast/${key}/${lat},${lng}`
+    const weatherUrl = `https://api.darksky.net/forecast/${key}/${lat},${lng}?units=si`
 
     const weather = await axios.get(weatherUrl)
 
+    // const celsius = temp => ((temp - 32) / 1.8).toFixed(1)
     const current = weather.data.currently
-    const celsius = temp => ((temp - 32) / 1.8).toFixed(1)
     const timeOffset = weather.data.offset * 3600
     const currentTime = current.time + timeOffset
     const hourlyWeather = weather.data.hourly.data
@@ -89,7 +89,7 @@ app.get('/weather', async (req, res) => {
       .map(hourly => ({
         timeByHour: moment.utc((hourly.time + timeOffset) * 1000).format('ddd H:mm'),
         summary: hourly.summary,
-        temp: celsius(hourly.temperature),
+        temp: hourly.temperature,
         precipProbability: (hourly.precipProbability * 100).toFixed(0),
         cloudCover: (hourly.cloudCover * 100).toFixed(0),
       }))
@@ -98,12 +98,15 @@ app.get('/weather', async (req, res) => {
       address,
       localTime: moment.utc(currentTime * 1000).format('dddd Do MMM, H:mm'),
       summary: weather.data.hourly.summary,
-      temperature: celsius(current.temperature),
-      apparentTemperature: celsius(current.apparentTemperature),
+      temperature: current.temperature,
+      apparentTemperature: current.apparentTemperature,
       precipProbability: (current.precipProbability * 100).toFixed(0),
       humidity: (current.humidity * 100).toFixed(0),
       cloudCover: (current.cloudCover * 100).toFixed(0),
+      windSpeed: (current.windSpeed),
       pressure: current.pressure.toFixed(2),
+      uvIndex: current.uvIndex,
+      visibility: current.visibility,
       hourlyWeather,
       pageTitle: 'Wet Socks',
       placeholder: cities[Math.floor((Math.random() * 9) + 1)],

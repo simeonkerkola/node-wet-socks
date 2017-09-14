@@ -21,7 +21,6 @@ body {
 
 .container {
   min-width: 300px;
-
   overflow-y: scroll;
 }
 
@@ -66,7 +65,7 @@ form {
 
 .big-text {
   font-weight: 300;
-  font-size: 1.7rem;
+  font-size: 1.5em;
 }
 
 .weather-col {
@@ -109,6 +108,7 @@ form {
   .form-inline .form-control {
     width: 70%;
   }
+}
 
 @media (min-width: 500px) {
   body {
@@ -140,9 +140,10 @@ form {
 }
 
 /* Large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) { body {
-  font-size: 19px;
-}
-.first-row, .hourly-time, .hourly-summary {
-  font-size: 19px;
-}
+@media (min-width: 1200px) {
+  body {
+    font-size: 19px;
+  }
+  .first-row, .hourly-time, .hourly-summary {
+    font-size: 19px;
+  }
