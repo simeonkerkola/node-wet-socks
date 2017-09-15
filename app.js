@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(expressValidator())
 
 hbs.registerHelper('getCurrentYear', () => new Date().getFullYear())
-hbs.registerHelper('homepage', () => 'http://smi.fyi')
+hbs.registerHelper('homepage', () => 'http://simeon.fyi')
 hbs.registerHelper('wetSocksGithub', () => 'https://github.com/sssmi/wet-socks')
 
 app.use((req, res, next) => {
