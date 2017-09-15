@@ -24,80 +24,88 @@
     <p class="address-error">{{errorMessage}}</p>
     {{/if}} {{#if showWeather}} {{#unless errorMessage}}
 
-    <p class="address">{{address}}</p>
-    <div class="big-text">
-      <p>{{localTime}}</p>
-      <p>{{summary}}</p>
-    </div>
+    <div class="centered">
+      <h2>{{address}}</h2>
+      <p>
+        <span class="big-number">
+          {{temperature}}</span><span class="celsius">°C</span>
+        </p>
+        <p>{{summary}}</p>
 
-    <div class="row">
-      <div class="col-xs-4 weather-col">It's currently: {{temperature}}°C</div>
-      <div class="col-xs-4 weather-col">It feels like: {{apparentTemperature}}°C</div>
-      <div class="col-xs-4 weather-col">Chance of rain: {{precipProbability}}%</div>
-
-    </div>
-    <div class="row">
-      <div class="col-xs-4 weather-col">Humidity: {{humidity}}%</div>
-      <div class="col-xs-4 weather-col">Cloud coverage: {{cloudCover}}%</div>
-      <div class="col-xs-4 weather-col">Wind Speed: {{windSpeed}}m/s</div>
-    </div>
-
-    <div class="row">
-      <div class="col-xs-4 weather-col">Visibility: {{cloudCover}}km</div>
-      <div class="col-xs-4 weather-col">Pressure: {{pressure}}hPa</div>
-      <div class="col-xs-4 weather-col">UV Index: {{uvIndex}}</div>
-    </div>
-
-
-    <p class="hourly">Hourly forecast</p>
-
-    <div class="row">
-      <div class="col-xs-3 weather-col first-row">Time</div>
-      <div class="col-xs-3 weather-col first-row">Summary</div>
-      <div class="col-xs-2 weather-col first-row">Temp</div>
-      <div class="col-xs-1 weather-col first-row">☂️</div>
-      <div class="col-xs-1 weather-col first-row">☁️</div>
-      <!-- <div class="col-xs-1 weather-col first-row">6</div> -->
-    </div>
-
-      {{#each hourlyWeather}}
-
-
-
-      <div class="row">
-        <div class="col-xs-3 weather-col hourly-time">{{this.timeByHour}}</div>
-        <div class="col-xs-3 weather-col hourly-summary">{{this.summary}}</div>
-        <div class="col-xs-2 weather-col">{{this.temp}}°C</div>
-        <div class="col-xs-1 weather-col">{{this.precipProbability}}%</div>
-        <div class="col-xs-1 weather-col">{{this.cloudCover}}%</div>
-        <!-- <div class="col-xs-1 weather-col">6</div> -->
+        <h1></h1>
       </div>
 
-      {{/each}}
+      <div class="weather-junk">
+        <p>{{localTime}}</p>
+        <div class="row">
+          <div class="col-xs-4 weather-col">It feels like: {{apparentTemperature}}°C</div>
+          <div class="col-xs-4 weather-col">Chance of rain: {{precipProbability}}%</div>
+          <div class="col-xs-4 weather-col">Wind Speed: {{windSpeed}}m/s</div>
 
-    {{/unless}} {{/if}}
-  </div>
-  <footer class="footer">
-    <h2>Keep your feet dry</h2>
+        </div>
+        <div class="row">
+          <div class="col-xs-4 weather-col">Humidity: {{humidity}}%</div>
+          <div class="col-xs-4 weather-col">Cloud coverage: {{cloudCover}}%</div>
+        </div>
 
-    <p class="text-muted">© <a href={{homepage}}>Simeon Kerkola</a> {{getCurrentYear}} Source Code available under MIT license <a href="{{wetSocksGithub}}">here.</a>
-      <br><span class="shout-out">Powered by <a href="https://darksky.net/poweredby/">Dark Sky</a></p></span>
+        <div class="row">
+          <div class="col-xs-4 weather-col">UV Index: {{uvIndex}}</div>
+          <div class="col-xs-4 weather-col">Visibility: {{visibility}}km</div>
+          <div class="col-xs-4 weather-col">Pressure: {{pressure}}hPa</div>
+        </div>
 
-    </footer>
 
-    <script src="/js/jquery-3.2.1.min.js"></script>
-    <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-    <script src="/js/index.js"></script>
-    <script>
-    (function (i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date(); a = s.createElement(o),
-      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-    ga('create', 'UA-102566898-2', 'auto');
-    ga('send', 'pageview');
-    </script>
-  </body>
+        <p class="hourly">Hourly forecast</p>
 
-  </html>
+        <div class="row">
+          <div class="col-xs-3 weather-col first-row">Time</div>
+          <div class="col-xs-3 weather-col first-row">Summary</div>
+          <div class="col-xs-2 weather-col first-row">Temp</div>
+          <div class="col-xs-1 weather-col first-row">☂️</div>
+          <div class="col-xs-1 weather-col first-row">☁️</div>
+          <!-- <div class="col-xs-1 weather-col first-row">6</div> -->
+        </div>
+
+        {{#each hourlyWeather}}
+
+
+
+        <div class="row">
+          <div class="col-xs-3 weather-col hourly-time">{{this.timeByHour}}</div>
+          <div class="col-xs-3 weather-col hourly-summary">{{this.summary}}</div>
+          <div class="col-xs-2 weather-col">{{this.temp}}°C</div>
+          <div class="col-xs-1 weather-col">{{this.precipProbability}}%</div>
+          <div class="col-xs-1 weather-col">{{this.cloudCover}}%</div>
+          <!-- <div class="col-xs-1 weather-col">6</div> -->
+        </div>
+
+        {{/each}}
+
+        {{/unless}} {{/if}}
+      </div>
+    </div>
+
+    <footer class="footer">
+      <h2>Keep your feet dry</h2>
+
+      <p class="text-muted">© <a href={{homepage}}>Simeon Kerkola</a> {{getCurrentYear}} Source Code available under MIT license <a href="{{wetSocksGithub}}">here.</a>
+        <br><span class="shout-out">Powered by <a href="https://darksky.net/poweredby/">Dark Sky</a></p></span>
+
+      </footer>
+
+      <script src="/js/jquery-3.2.1.min.js"></script>
+      <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+      <script src="/js/index.js"></script>
+      <script>
+      (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+      ga('create', 'UA-102566898-2', 'auto');
+      ga('send', 'pageview');
+      </script>
+    </body>
+
+    </html>
