@@ -81,6 +81,18 @@ app.get('/weather', async (req, res) => {
     const weather = await axios.get(weatherUrl)
 
     // const celsius = temp => ((temp - 32) / 1.8).toFixed(1)
+    const getIcon = (iconName) => {
+      if (iconName === 'clear-day') return 'day-sunny'
+      else if (iconName === 'clear-night') return 'night-clear'
+      else if (iconName === 'rain') return 'rain'
+      else if (iconName === 'snow') return 'snow'
+      else if (iconName === 'sleet') return 'sleet'
+      else if (iconName === 'wind') return 'strong-wind'
+      else if (iconName === 'fog') return 'fog'
+      else if (iconName === 'cloudy') return 'cloudy'
+      else if (iconName === 'partly-cloudy-day') return 'day-cloudy'
+      else if (iconName === 'partly-cloudy-night') return 'night-alt-cloudy'
+    }
     const current = weather.data.currently
     const timeOffset = weather.data.offset * 3600
     const currentTime = current.time + timeOffset
@@ -88,10 +100,12 @@ app.get('/weather', async (req, res) => {
       .splice(1, 25) // from next hour to 24h onwards
       .map(hourly => ({
         timeByHour: moment.utc((hourly.time + timeOffset) * 1000).format('ddd H:mm'),
+        icon: getIcon(hourly.icon),
         summary: hourly.summary,
         temp: hourly.temperature,
         precipProbability: (hourly.precipProbability * 100).toFixed(0),
         cloudCover: (hourly.cloudCover * 100).toFixed(0),
+        wind: (hourly.windSpeed).toFixed(1),
       }))
 
     res.render('index.hbs', {
@@ -99,11 +113,13 @@ app.get('/weather', async (req, res) => {
       localTime: moment.utc(currentTime * 1000).format('dddd Do MMM, H:mm'),
       summary: weather.data.hourly.summary,
       temperature: (current.temperature).toFixed(1),
+      currentIcon: getIcon(current.icon),
       apparentTemperature: (current.apparentTemperature).toFixed(1),
       precipProbability: (current.precipProbability * 100).toFixed(0),
       humidity: (current.humidity * 100).toFixed(0),
       cloudCover: (current.cloudCover * 100).toFixed(0),
-      windSpeed: (current.windSpeed),
+      windSpeed: current.windSpeed,
+      windGust: current.windGust,
       pressure: current.pressure.toFixed(2),
       uvIndex: current.uvIndex,
       visibility: current.visibility,

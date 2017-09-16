@@ -30,11 +30,12 @@ body {
 }
 
 form {
-  flex-grow: 1;
+
   display: flex;
 }
 
 .form-group {
+  flex: 1;
   max-width: 700px;
   padding: 10px 0 10px 0;
 }
@@ -93,6 +94,10 @@ form {
   padding-left: inherit;
 }
 
+webicon {
+  width: 1.5em;
+  height: 1.5em;
+}
 .first-row, .hourly-time, .hourly-summary {
   font-size: 0.9rem;
 }
@@ -112,11 +117,11 @@ form {
 }
 
 .text-muted {
-  font-size: 1rem;
+  font-size: .8em;
 }
 
 .shout-out {
-  font-size: 0.8rem;
+  font-size: .7em;
 }
 
 @media {
