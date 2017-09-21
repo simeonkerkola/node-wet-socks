@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
   res.render('index.hbs', {
     pageTitle: 'Wet Socks',
     placeholder: cities[Math.floor(Math.random() * 9)],
-    onHourly: true,
+    showHourly: true,
   })
 })
 
@@ -82,8 +82,7 @@ app.get('/weather', async (req, res) => {
 
     // const celsius = temp => ((temp - 32) / 1.8).toFixed(1)
     const getIcon = (iconName) => {
-      if (iconName === 'clear-day') return 'day-sunny'
-      else if (iconName === 'clear-night') return 'night-clear'
+      if (iconName === 'clear-night') return 'night-clear'
       else if (iconName === 'rain') return 'rain'
       else if (iconName === 'snow') return 'snow'
       else if (iconName === 'sleet') return 'sleet'
@@ -92,6 +91,7 @@ app.get('/weather', async (req, res) => {
       else if (iconName === 'cloudy') return 'cloudy'
       else if (iconName === 'partly-cloudy-day') return 'day-cloudy'
       else if (iconName === 'partly-cloudy-night') return 'night-alt-cloudy'
+      return 'day-sunny'
     }
     const current = weather.data.currently
     const timeOffset = weather.data.offset * 3600
