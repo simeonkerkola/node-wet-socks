@@ -11,7 +11,7 @@ A Nodejs based web application that interacts with Google Maps and Dark Sky
 
 
 ### Install
-* Fork repo `$ git clone https://github.com/sssmi/node-weather-app.git`
+* Clone repo `$ git clone https://github.com/sssmi/node-weather-app.git`
 * Install the dependencies `$ npm install`
 * To access a Dark Sky API, Create a new account at https://darksky.net/dev/
 * `$ cd` to project folder and `$ echo "your-key-here" >> access-key`
