@@ -1,4 +1,3 @@
-
 'use strict'
 
 const express = require('express')
@@ -43,15 +42,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.get('/', (req, res) => {
-  res.render('index.hbs', {
-    pageTitle: 'Wet Socks',
-    placeholder: cities[Math.floor(Math.random() * 9)],
-    showHourly: true,
-  })
-})
-
-app.get('/weather', async (req, res) => {
+app.get('/', async (req, res) => {
   // // Check that the field is not empty
   // req.checkBody('address', 'Address is required').notEmpty()
   //
@@ -61,10 +52,9 @@ app.get('/weather', async (req, res) => {
   //
   // // run the validators
   // const errors = req.getValidationResult()
-
+  let addressInput = req.query.address
   try {
-    const addressInput = req.query.address
-
+    if (!addressInput) addressInput = 'Helsinki'
     const encodedAddress = encodeURIComponent(addressInput)
     const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`
 
@@ -109,6 +99,9 @@ app.get('/weather', async (req, res) => {
       }))
 
     res.render('index.hbs', {
+      pageTitle: 'Wet Socks',
+      placeholder: cities[Math.floor(Math.random() * 9)],
+      showHourly: true,
       address,
       localTime: moment.utc(currentTime * 1000).format('dddd Do MMM, H:mm'),
       summary: weather.data.hourly.summary,
@@ -124,8 +117,6 @@ app.get('/weather', async (req, res) => {
       uvIndex: current.uvIndex,
       visibility: current.visibility,
       hourlyWeather,
-      pageTitle: 'Wet Socks',
-      placeholder: cities[Math.floor((Math.random() * 9) + 1)],
       showWeather: true,
     })
   } catch (e) {
@@ -138,6 +129,7 @@ app.get('/weather', async (req, res) => {
     res.render('index.hbs', { errorMessage })
   }
 })
+
 
 app.listen(port, () => {
   console.log('Server is up on port:', port)
