@@ -42,6 +42,60 @@ app.use((req, res, next) => {
   next()
 })
 
+const renderWeather = (weather, address) => {
+  // const celsius = temp => ((temp - 32) / 1.8).toFixed(1)
+  const getIcon = (iconName) => {
+    if (iconName === 'clear-night') return 'night-clear'
+    else if (iconName === 'rain') return 'rain'
+    else if (iconName === 'snow') return 'snow'
+    else if (iconName === 'sleet') return 'sleet'
+    else if (iconName === 'wind') return 'strong-wind'
+    else if (iconName === 'fog') return 'fog'
+    else if (iconName === 'cloudy') return 'cloudy'
+    else if (iconName === 'partly-cloudy-day') return 'day-cloudy'
+    else if (iconName === 'partly-cloudy-night') return 'night-alt-cloudy'
+    return 'day-sunny'
+  }
+  const current = weather.data.currently
+  const timeOffset = weather.data.offset * 3600
+  const currentTime = current.time + timeOffset
+  const hourlyWeather = weather.data.hourly.data
+    .splice(1, 25) // from next hour to 24h onwards
+    .map(hourly => ({
+      timeByHour: moment.utc((hourly.time + timeOffset) * 1000).format('ddd H:mm'),
+      icon: getIcon(hourly.icon),
+      summary: hourly.summary,
+      temp: hourly.temperature,
+      precipProbability: (hourly.precipProbability * 100).toFixed(0),
+      cloudCover: (hourly.cloudCover * 100).toFixed(0),
+      wind: (hourly.windSpeed).toFixed(1),
+    }))
+
+  const gotData = {
+    pageTitle: 'Wet Socks',
+    placeholder: cities[Math.floor(Math.random() * 9)],
+    showHourly: true,
+    address,
+    localTime: moment.utc(currentTime * 1000).format('dddd Do MMM, H:mm'),
+    summary: weather.data.hourly.summary,
+    temperature: (current.temperature).toFixed(1),
+    currentIcon: getIcon(current.icon),
+    apparentTemperature: (current.apparentTemperature).toFixed(1),
+    precipProbability: (current.precipProbability * 100).toFixed(0),
+    humidity: (current.humidity * 100).toFixed(0),
+    cloudCover: (current.cloudCover * 100).toFixed(0),
+    windSpeed: current.windSpeed,
+    windGust: current.windGust,
+    pressure: current.pressure.toFixed(2),
+    uvIndex: current.uvIndex,
+    visibility: current.visibility,
+    hourlyWeather,
+    showWeather: true,
+  }
+
+  return gotData
+}
+
 app.get('/', async (req, res) => {
   // // Check that the field is not empty
   // req.checkBody('address', 'Address is required').notEmpty()
@@ -52,6 +106,9 @@ app.get('/', async (req, res) => {
   //
   // // run the validators
   // const errors = req.getValidationResult()
+
+  // https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452
+
   let addressInput = req.query.address
   try {
     if (!addressInput) addressInput = 'Helsinki'
@@ -70,55 +127,7 @@ app.get('/', async (req, res) => {
 
     const weather = await axios.get(weatherUrl)
 
-    // const celsius = temp => ((temp - 32) / 1.8).toFixed(1)
-    const getIcon = (iconName) => {
-      if (iconName === 'clear-night') return 'night-clear'
-      else if (iconName === 'rain') return 'rain'
-      else if (iconName === 'snow') return 'snow'
-      else if (iconName === 'sleet') return 'sleet'
-      else if (iconName === 'wind') return 'strong-wind'
-      else if (iconName === 'fog') return 'fog'
-      else if (iconName === 'cloudy') return 'cloudy'
-      else if (iconName === 'partly-cloudy-day') return 'day-cloudy'
-      else if (iconName === 'partly-cloudy-night') return 'night-alt-cloudy'
-      return 'day-sunny'
-    }
-    const current = weather.data.currently
-    const timeOffset = weather.data.offset * 3600
-    const currentTime = current.time + timeOffset
-    const hourlyWeather = weather.data.hourly.data
-      .splice(1, 25) // from next hour to 24h onwards
-      .map(hourly => ({
-        timeByHour: moment.utc((hourly.time + timeOffset) * 1000).format('ddd H:mm'),
-        icon: getIcon(hourly.icon),
-        summary: hourly.summary,
-        temp: hourly.temperature,
-        precipProbability: (hourly.precipProbability * 100).toFixed(0),
-        cloudCover: (hourly.cloudCover * 100).toFixed(0),
-        wind: (hourly.windSpeed).toFixed(1),
-      }))
-
-    res.render('index.hbs', {
-      pageTitle: 'Wet Socks',
-      placeholder: cities[Math.floor(Math.random() * 9)],
-      showHourly: true,
-      address,
-      localTime: moment.utc(currentTime * 1000).format('dddd Do MMM, H:mm'),
-      summary: weather.data.hourly.summary,
-      temperature: (current.temperature).toFixed(1),
-      currentIcon: getIcon(current.icon),
-      apparentTemperature: (current.apparentTemperature).toFixed(1),
-      precipProbability: (current.precipProbability * 100).toFixed(0),
-      humidity: (current.humidity * 100).toFixed(0),
-      cloudCover: (current.cloudCover * 100).toFixed(0),
-      windSpeed: current.windSpeed,
-      windGust: current.windGust,
-      pressure: current.pressure.toFixed(2),
-      uvIndex: current.uvIndex,
-      visibility: current.visibility,
-      hourlyWeather,
-      showWeather: true,
-    })
+    res.render('index.hbs', renderWeather(weather, address))
   } catch (e) {
     let errorMessage = e.message
     if (e.code === 'ENOTFOUND') {
