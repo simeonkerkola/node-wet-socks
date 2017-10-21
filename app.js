@@ -54,43 +54,60 @@ const renderWeather = (weather, address) => {
     else if (iconName === 'cloudy') return 'cloudy'
     else if (iconName === 'partly-cloudy-day') return 'day-cloudy'
     else if (iconName === 'partly-cloudy-night') return 'night-alt-cloudy'
+    else if (iconName === 'hail') return 'hail'
+    else if (iconName === 'thunderstorm') return 'thunderstorm'
+    else if (iconName === 'tornado') return 'tornado'
     return 'day-sunny'
   }
-  const current = weather.data.currently
-  const timeOffset = weather.data.offset * 3600
-  const currentTime = current.time + timeOffset
+
+  const { offset } = weather.data
+  const {
+    temperature,
+    icon,
+    apparentTemperature,
+    precipProbability,
+    humidity,
+    cloudCover,
+    windSpeed,
+    windGust,
+    pressure,
+    uvIndex,
+    visibility,
+    time,
+  } = weather.data.currently
+
   const hourlyWeather = weather.data.hourly.data
     .splice(1, 25) // from next hour to 24h onwards
     .map(hourly => ({
-      timeByHour: moment.utc((hourly.time + timeOffset) * 1000).format('ddd H:mm'),
+      timeByHour: moment.utc((hourly.time + (offset * 3600)) * 1000).format('ddd H:mm'),
       icon: getIcon(hourly.icon),
       summary: hourly.summary,
-      temp: hourly.temperature,
+      temp: (hourly.temperature).toFixed(0),
       precipProbability: (hourly.precipProbability * 100).toFixed(0),
       cloudCover: (hourly.cloudCover * 100).toFixed(0),
       wind: (hourly.windSpeed).toFixed(1),
     }))
 
   const gotData = {
+    showWeather: true,
     pageTitle: 'Wet Socks',
     placeholder: cities[Math.floor(Math.random() * 9)],
     showHourly: true,
     address,
-    localTime: moment.utc(currentTime * 1000).format('dddd Do MMM, H:mm'),
+    localTime: moment.utc((time + (offset * 3600)) * 1000).format('dddd Do MMM, H:mm'),
     summary: weather.data.hourly.summary,
-    temperature: (current.temperature).toFixed(1),
-    currentIcon: getIcon(current.icon),
-    apparentTemperature: (current.apparentTemperature).toFixed(1),
-    precipProbability: (current.precipProbability * 100).toFixed(0),
-    humidity: (current.humidity * 100).toFixed(0),
-    cloudCover: (current.cloudCover * 100).toFixed(0),
-    windSpeed: current.windSpeed,
-    windGust: current.windGust,
-    pressure: current.pressure.toFixed(2),
-    uvIndex: current.uvIndex,
-    visibility: current.visibility,
+    temperature: temperature.toFixed(1),
+    currentIcon: getIcon(icon),
+    apparentTemperature: apparentTemperature.toFixed(1),
+    precipProbability: (precipProbability * 100).toFixed(0),
+    humidity: (humidity * 100).toFixed(0),
+    cloudCover: (cloudCover * 100).toFixed(0),
+    pressure: pressure.toFixed(2),
+    windSpeed,
+    windGust,
+    uvIndex,
+    visibility,
     hourlyWeather,
-    showWeather: true,
   }
 
   return gotData
@@ -132,10 +149,13 @@ app.get('/', async (req, res) => {
     let errorMessage = e.message
     if (e.code === 'ENOTFOUND') {
       errorMessage = ('Unable to connect to API servers.')
+      res.render('index.hbs', { errorMessage })
     } else {
       errorMessage = e.message
     }
+    errorMessage = "Couldn't get any weather data :("
     res.render('index.hbs', { errorMessage })
+    console.log(e.message);
   }
 })
 
