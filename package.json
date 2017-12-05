@@ -19,7 +19,7 @@
     "express-validator": "3.2.1",
     "hbs": "4.0.1",
     "moment": "2.18.1",
-    "nodemon": "1.12.1",
+    "nodemon": "1.12.1"
   },
   "devDependencies": {
     "eslint": "^4.4.1",
