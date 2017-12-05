@@ -1,11 +1,9 @@
 'use strict'
- 
+
 const express = require('express')
 const hbs = require('hbs')
 const fs = require('fs')
 const axios = require('axios')
-const bodyParser = require('body-parser')
-const expressValidator = require('express-validator')
 const moment = require('moment')
 
 const key = fs.readFileSync('./access-key').toString().trim()
@@ -26,13 +24,10 @@ const app = express()
 
 app.set('view engine', 'hbs') // set the view engine for express
 app.use(express.static(`${__dirname}/public`)) // folder for static pages
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(expressValidator())
 
 hbs.registerHelper('getCurrentYear', () => new Date().getFullYear())
 hbs.registerHelper('homepage', () => 'http://simeon.fyi')
-hbs.registerHelper('wetSocksGithub', () => 'https://github.com/sssmi/wet-socks')
+hbs.registerHelper('wetSocksGithub', () => 'https://github.com/sssmi/node-wet-socks')
 
 app.use((req, res, next) => {
   const now = new Date().toString()
@@ -88,7 +83,7 @@ const renderWeather = (weather, address) => {
       wind: (hourly.windSpeed).toFixed(1),
     }))
 
-  const gotData = {
+  const renderData = {
     showWeather: true,
     pageTitle: 'Wet Socks',
     placeholder: cities[Math.floor(Math.random() * 9)],
@@ -109,23 +104,10 @@ const renderWeather = (weather, address) => {
     visibility,
     hourlyWeather,
   }
-
-  return gotData
+  return renderData
 }
 
 app.get('/', async (req, res) => {
-  // // Check that the field is not empty
-  // req.checkBody('address', 'Address is required').notEmpty()
-  //
-  // // trim and escape the address field
-  // // req.sanitize('address').escape()
-  // // req.sanitize('address').trim()
-  //
-  // // run the validators
-  // const errors = req.getValidationResult()
-
-  // https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452
-
   let addressInput = req.query.address
   try {
     if (!addressInput) addressInput = 'Helsinki'
