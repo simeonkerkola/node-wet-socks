@@ -12,7 +12,7 @@ const cities = [
   'eg. Chicalim, Vasco, South Goa, Goa 403711, India',
 ]
 
-exports.renderWeather = (weather, address) => {
+exports.renderWeather = ({ weather, address }) => {
   // const celsius = temp => ((temp - 32) / 1.8).toFixed(1)
   const getIcon = (iconName) => {
     if (iconName === 'clear-night') return 'night-clear'
@@ -49,13 +49,13 @@ exports.renderWeather = (weather, address) => {
   const hourlyWeather = weather.data.hourly.data
     .splice(1, 25) // from next hour to 24h onwards
     .map(hourly => ({
-      timeByHour: moment.utc((hourly.time + (offset * 3600)) * 1000).format('ddd H:mm'),
+      timeByHour: moment.utc((hourly.time + offset * 3600) * 1000).format('ddd H:mm'),
       icon: getIcon(hourly.icon),
       summary: hourly.summary,
-      temp: (hourly.temperature).toFixed(0),
+      temp: hourly.temperature.toFixed(0),
       precipProbability: (hourly.precipProbability * 100).toFixed(0),
       cloudCover: (hourly.cloudCover * 100).toFixed(0),
-      wind: (hourly.windSpeed).toFixed(1),
+      wind: hourly.windSpeed.toFixed(1),
     }))
 
   const renderData = {
@@ -64,7 +64,7 @@ exports.renderWeather = (weather, address) => {
     placeholder: cities[Math.floor(Math.random() * 9)],
     showHourly: true,
     address,
-    localTime: moment.utc((time + (offset * 3600)) * 1000).format('dddd Do MMM, H:mm'),
+    localTime: moment.utc((time + offset * 3600) * 1000).format('dddd Do MMM, H:mm'),
     summary: weather.data.hourly.summary,
     temperature: temperature.toFixed(1),
     currentIcon: getIcon(icon),
