@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
   const addressInput = req.query.address || 'helsinki'
   getWeather(addressInput).then((result) => {
     res.render('index.hbs', renderWeather(result))
+    console.log(req.ip);
   })
 })
 
