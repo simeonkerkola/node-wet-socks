@@ -19,7 +19,7 @@ A Nodejs based web application that interacts with Google Maps and Dark Sky
 * To access a Dark Sky API, Create a new account at https://darksky.net/dev/
 * `$ cd` to project folder and `$ echo "DARKSKY_KEY=your-key-here" >> .env`
   **OR**
-* Create a `access-key` file in the project's folder and paste the key you got
+* Create a `.env` file in the project's folder and paste the key you got: `DARKSKY_KEY=your-key-here`
 
 ### Fire up
 
