@@ -19,8 +19,12 @@ A Nodejs based web application that interacts with Google Maps and Dark Sky
 * To access a Dark Sky API, Create a new account at https://darksky.net/dev/
 * To access a Google Maps Geocoding API, go to: https://console.cloud.google.com/google/maps-apis/apis
   and create a new API key
-* Create a `.env` file in the project's folder and paste your keys: `DARKSKY_KEY=keyhere123`
-  `GOOGLE_KEY=keyhere123`
+* Create a `.env` file in the project's folder and paste your keys:
+
+```
+DARKSKY_KEY=keyhere123
+GOOGLE_KEY=keyhere123
+```
 
 ### Fire up
 
