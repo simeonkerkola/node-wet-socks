@@ -21,12 +21,14 @@ A Nodejs based web application that interacts with Google Maps and Dark Sky
   and create a new API key
 * Create a `.env` file in the project's folder and paste your keys:
 
-```
-DARKSKY_KEY=keyhere123
-GOOGLE_KEY=keyhere123
-```
+* ```
+  DARKSKY_KEY=keyhere123
+  GOOGLE_KEY=keyhere123
+  ```
 
+```
 ### Fire up
 
 * `$ nodemon app.js`
 * Then open `http://localhost:3000` in your browser
+```
