@@ -16,13 +16,13 @@ h2 {
 body {
   font-weight: 100;
   font-size: 11px;
-  min-height: 100vh;
+  min-height: 90vh;
   position: relative;
 }
 
 
 .container {
-
+  padding-top: 20px;
   overflow:hidden;
   display: relative;
 padding-bottom: 120px;
@@ -190,12 +190,8 @@ font-weight: 100;
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-  body {
-    font-size: 18px;
-  }
-  .first-row, .hourly-time, .hourly-summary {
-    font-size: 18px;
-  }
+
+
   .current-icon {
     width: 100px;
   }
@@ -211,12 +207,8 @@ font-weight: 100;
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-  body {
-    font-size: 19px;
-  }
-  .first-row, .hourly-time, .hourly-summary {
-    font-size: 19px;
-  }
+
+
   .hourly-svg {
     height: 40px;
   }
