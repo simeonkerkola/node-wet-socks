@@ -15,22 +15,22 @@ const cities = [
 exports.renderWeather = ({ weather, address }) => {
   // const celsius = temp => ((temp - 32) / 1.8).toFixed(1)
   const getIcon = (iconName) => {
-    if (iconName === 'clear-night') return 'night-clear'
-    else if (iconName === 'rain') return 'rain'
-    else if (iconName === 'snow') return 'snow'
-    else if (iconName === 'sleet') return 'sleet'
-    else if (iconName === 'wind') return 'strong-wind'
-    else if (iconName === 'fog') return 'fog'
-    else if (iconName === 'cloudy') return 'cloudy'
-    else if (iconName === 'partly-cloudy-day') return 'day-cloudy'
-    else if (iconName === 'partly-cloudy-night') return 'night-alt-cloudy'
-    else if (iconName === 'hail') return 'hail'
-    else if (iconName === 'thunderstorm') return 'thunderstorm'
-    else if (iconName === 'tornado') return 'tornado'
-    return 'day-sunny'
+    if (iconName === 'clear-night') return 'Moon.svg'
+    else if (iconName === 'rain') return 'Cloud-Drizzle-Alt.svg'
+    else if (iconName === 'snow') return 'Cloud-Snow-Alt.svg'
+    else if (iconName === 'sleet') return 'Cloud-Hail-Alt.svg'
+    else if (iconName === 'wind') return 'Wind.svg'
+    else if (iconName === 'fog') return 'Cloud-Fog.svg'
+    else if (iconName === 'cloudy') return 'Cloud.svg'
+    else if (iconName === 'partly-cloudy-day') return 'Cloud-Sun.svg'
+    else if (iconName === 'partly-cloudy-night') return 'Cloud-Moon.svg'
+    else if (iconName === 'hail') return 'Cloud-Hail-Alt.svg'
+    else if (iconName === 'thunderstorm') return 'Cloud-Lightning.svg'
+    else if (iconName === 'tornado') return 'Tornado.svg'
+    return 'Sun.svg'
   }
 
-  const { offset } = weather.data
+  const { offset } = weather
   const {
     temperature,
     icon,
@@ -44,9 +44,9 @@ exports.renderWeather = ({ weather, address }) => {
     uvIndex,
     visibility,
     time,
-  } = weather.data.currently
+  } = weather.currently
 
-  const hourlyWeather = weather.data.hourly.data
+  const hourlyWeather = weather.hourly.data
     .splice(1, 25) // from next hour to 24h onwards
     .map(hourly => ({
       timeByHour: moment.utc((hourly.time + offset * 3600) * 1000).format('ddd H:mm'),
@@ -65,8 +65,8 @@ exports.renderWeather = ({ weather, address }) => {
     showHourly: true,
     address,
     localTime: moment.utc((time + offset * 3600) * 1000).format('dddd Do MMM, H:mm'),
-    summary: weather.data.hourly.summary,
-    temperature: temperature.toFixed(1),
+    summary: weather.hourly.summary,
+    bigNumber: temperature.toFixed(1),
     currentIcon: getIcon(icon),
     apparentTemperature: apparentTemperature.toFixed(1),
     precipProbability: (precipProbability * 100).toFixed(0),

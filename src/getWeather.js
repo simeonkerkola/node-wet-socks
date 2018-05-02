@@ -1,10 +1,8 @@
 const axios = require('axios')
-const fs = require('fs')
+require('dotenv').config()
 
-const key = fs
-  .readFileSync('./access-key')
-  .toString()
-  .trim()
+// Change to env var
+const key = process.env.DARKSKY_KEY
 
 exports.getWeather = async (addressInput) => {
   try {

@@ -10,16 +10,22 @@ a.title:hover {
 }
 
 h2 {
-  margin: 20px 0 20px 0;
+  margin: 0 0 20px 0;
 }
 
 body {
   font-weight: 100;
   font-size: 11px;
+  min-height: 100vh;
+  position: relative;
 }
 
 
 .container {
+
+  overflow:hidden;
+  display: relative;
+padding-bottom: 120px;
   min-width: 300px;
   overflow-y: scroll;
 }
@@ -61,12 +67,19 @@ form {
 }
 
 .address-error {
+font-weight: 100;
   color: #d9230f;
   font-size: 20px;
-  margin: 30px 0 0 0;
+  margin: 25px;
 }
 .centered {
   text-align: center;
+}
+
+.current-icon {
+  width: 60px;
+
+  transform: translateX(-20px);
 }
 
 .weather-junk {
@@ -94,10 +107,10 @@ form {
   padding-left: inherit;
 }
 
-webicon {
-  width: 1.5em;
-  height: 1.5em;
+.hourly-svg {
+  width:
 }
+
 .first-row, .hourly-time, .hourly-summary {
   font-size: 0.9rem;
 }
@@ -110,9 +123,9 @@ webicon {
 }
 
 .footer {
-  position: relative;
+  position: absolute;
   bottom: 0;
-  margin: 0 60px 0 0;
+  margin: 160px 60px 0 0;
   padding-left: 15px;
 }
 
@@ -122,6 +135,15 @@ webicon {
 
 .shout-out {
   font-size: .7em;
+}
+
+
+.hourly-svg {
+  height: 27px;
+}
+
+.hourly-svg__col {
+  transform: translateY(-9px);
 }
 
 @media {
@@ -137,6 +159,19 @@ webicon {
   .first-row, .hourly-time, .hourly-summary {
     font-size: 14px;
   }
+
+  .current-icon {
+    background-color: transparent;
+    width: 70px;
+  }
+
+  .hourly-svg {
+    height: 30px;
+  }
+
+  .address-error {
+    font-size: 26px;
+  }
 }
 
 /* Small devices (tablets, 768px and up) */
@@ -146,6 +181,10 @@ webicon {
   }
   .first-row, .hourly-time, .hourly-summary {
     font-size: 16px;
+  }
+
+  .current-icon {
+    width: 90px;
   }
 }
 
@@ -157,6 +196,17 @@ webicon {
   .first-row, .hourly-time, .hourly-summary {
     font-size: 18px;
   }
+  .current-icon {
+    width: 100px;
+  }
+  .hourly-svg {
+    height: 35px;
+  }
+
+  .address-error {
+    font-size: 30px;
+    margin: 70px;
+  }
 }
 
 /* Large devices (large desktops, 1200px and up) */
@@ -167,3 +217,17 @@ webicon {
   .first-row, .hourly-time, .hourly-summary {
     font-size: 19px;
   }
+  .hourly-svg {
+    height: 40px;
+  }
+
+  .address-error {
+    font-size: 35px;
+  }
+
+}
+  .hide-me {
+    display: none;
+  }
+
+  .show-me {display: block;}
