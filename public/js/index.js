@@ -9,6 +9,8 @@ var loadingSpinner = document.querySelector('.loadingSpinner')
 
 // Render Functions
 function renderHourly(hourly) {
+  weatherHourly.innerHTML = '' // remove old hourly data before rendering
+
   for (var i = 0; i < hourly.length; i++) {
     weatherHourly.insertAdjacentHTML(
       'beforeend',
