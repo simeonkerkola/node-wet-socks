@@ -6,6 +6,9 @@ var errorMessage = document.querySelector('.errorMessage')
 var weatherContainer = document.querySelector('.weatherContainer')
 var weatherHourly = document.querySelector('.weatherHourly')
 var loadingSpinner = document.querySelector('.loadingSpinner')
+var submitBtn = document.querySelector('#submitBtn')
+
+submitBtn.addEventListener('click', formSubmit)
 
 // Render Functions
 function renderHourly(hourly) {
@@ -15,31 +18,31 @@ function renderHourly(hourly) {
     weatherHourly.insertAdjacentHTML(
       'beforeend',
       '<div class="row">' +
-        '<div class="col-xs-2 weather-col hourly-time">' +
-        hourly[i].timeByHour +
-        '</div>' +
-        '<div class="col-xs-1 weather-col first-row hourly-svg__col"><img class="hourly-svg" src="/img/svg/' +
-        hourly[i].icon +
-        '" alt="' +
-        hourly[i].icon +
-        '"' +
-        '"/></div>' +
-        '<div class="col-xs-3 weather-col hourly-summary">' +
-        hourly[i].summary +
-        '</div>' +
-        '<div class="col-xs-2 weather-col">' +
-        hourly[i].temp +
-        '°C</div>' +
-        '<div class="col-xs-1 weather-col">' +
-        hourly[i].precipProbability +
-        '%</div>' +
-        '<div class="col-xs-1 weather-col">' +
-        hourly[i].cloudCover +
-        '%</div>' +
-        '<div class="col-xs-1 weather-col">' +
-        hourly[i].wind +
-        'm/s</div>' +
-        '</div>',
+      '<div class="col-xs-2 weather-col hourly-time">' +
+      hourly[i].timeByHour +
+      '</div>' +
+      '<div class="col-xs-1 weather-col first-row hourly-svg__col"><img class="hourly-svg" src="/img/svg/' +
+      hourly[i].icon +
+      '" alt="' +
+      hourly[i].icon +
+      '"' +
+      '"/></div>' +
+      '<div class="col-xs-3 weather-col hourly-summary">' +
+      hourly[i].summary +
+      '</div>' +
+      '<div class="col-xs-2 weather-col">' +
+      hourly[i].temp +
+      '°C</div>' +
+      '<div class="col-xs-1 weather-col">' +
+      hourly[i].precipProbability +
+      '%</div>' +
+      '<div class="col-xs-1 weather-col">' +
+      hourly[i].cloudCover +
+      '%</div>' +
+      '<div class="col-xs-1 weather-col">' +
+      hourly[i].wind +
+      'm/s</div>' +
+      '</div>',
     )
   }
 }
@@ -62,7 +65,9 @@ function renderWeather(data) {
   }
 }
 
-function formSubmit() {
+function formSubmit(e) {
+  e.preventDefault()
+
   var addressInput = document.querySelector('.addressInput').value
   loadingSpinner.classList.toggle('show-me')
 

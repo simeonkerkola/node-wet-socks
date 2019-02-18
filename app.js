@@ -1,12 +1,14 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const hbs = require('hbs')
+const expressip = require('express-ip');
 const { renderWeather } = require('./src/renderWeather.js')
 const { getWeather } = require('./src/getWeather.js')
 
 const port = process.env.PORT || 3000
 const app = express()
 
+app.use(expressip().getIpInfoMiddleware);
 app.set('view engine', 'hbs') // set the view engine for express
 app.use(express.static(`${__dirname}/public`)) // folder for static pages
 app.use(bodyParser.json()) // for parsing application/json
@@ -25,7 +27,7 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res) => {
   res.render('index.hbs')
-  console.log(req.body)
+  console.log(req)
 })
 
 app.get(
