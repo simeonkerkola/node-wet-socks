@@ -10,6 +10,7 @@ var submitBtn = document.querySelector('#submitBtn')
 
 
 // Get initial weather data
+loadingSpinner.classList.toggle('show-me')
 axios
   .get('/weather')
   .then(function (response) {
