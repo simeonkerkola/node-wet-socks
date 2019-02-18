@@ -113,8 +113,12 @@ function renderWeather(data) {
 }
 
 function handleErrors(e) {
-  errorMessage.classList.add('show-me')
-  errorMessage.classList.remove('hide-me')
-  errorMessage.innerHTML = 'Are you sure that is a valid address?'
-  console.error(e)
+  // Returns 404 if could not get user's IP from some reason.
+  // We don't need to show error messages when user comes to the site.
+  if (e.response.status !== 404) {
+    errorMessage.classList.add('show-me')
+    errorMessage.classList.remove('hide-me')
+    errorMessage.innerHTML = 'Are you sure that is a valid address?'
+    console.error(e)
+  }
 }

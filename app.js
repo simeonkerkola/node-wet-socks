@@ -31,7 +31,7 @@ app.get('/', async (req, res) => {
 
 app.get('/weather', async (req, res) => {
   const { city, ll, error } = req.ipInfo
-  if (error) return res.status(404).send(error.message = 'Could not get initial data :(')
+  if (error) return res.status(404).send({ message: 'Could not get initial data :(', code: 404 })
   try {
     let data = {}
     let result
