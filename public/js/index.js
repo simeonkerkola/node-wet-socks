@@ -8,6 +8,17 @@ var weatherHourly = document.querySelector('.weatherHourly')
 var loadingSpinner = document.querySelector('.loadingSpinner')
 var submitBtn = document.querySelector('#submitBtn')
 
+
+// Get initial weather data
+axios
+  .get('/weather')
+  .then(function (response) {
+    processResults(response)
+  })
+  .catch(function (e) {
+    handleErrors(e)
+  })
+
 submitBtn.addEventListener('click', formSubmit)
 
 // Render Functions
@@ -47,6 +58,42 @@ function renderHourly(hourly) {
   }
 }
 
+function formSubmit(e) {
+  e.preventDefault()
+
+  var addressInput = document.querySelector('.addressInput').value
+  loadingSpinner.classList.toggle('show-me')
+
+  errorMessage.classList.remove('show-me')
+  errorMessage.classList.add('hide-me')
+
+  weatherContainer.classList.add('hide-me')
+  weatherContainer.classList.remove('show-me')
+  axios
+    .get(`/weather/${addressInput}`)
+    .then(function (response) {
+      processResults(response)
+    })
+    .catch(function (e) {
+      handleErrors(e)
+    })
+}
+
+function processResults(res) {
+  loadingSpinner.classList.toggle('show-me')
+  if (!res.data.error) {
+    renderWeather(res.data)
+    renderHourly(res.data.hourlyWeather)
+  } else if (res.data.error) {
+    errorMessage.classList.add('show-me')
+    errorMessage.classList.remove('hide-me')
+    errorMessage.innerHTML = res.data.error
+  } else {
+    errorMessage.classList.add('show-me')
+    errorMessage.classList.remove('hide-me')
+  }
+}
+
 function renderWeather(data) {
   weatherContainer.classList.add('show-me')
   weatherContainer.classList.remove('hide-me')
@@ -65,38 +112,9 @@ function renderWeather(data) {
   }
 }
 
-function formSubmit(e) {
-  e.preventDefault()
-
-  var addressInput = document.querySelector('.addressInput').value
-  loadingSpinner.classList.toggle('show-me')
-
-  errorMessage.classList.remove('show-me')
-  errorMessage.classList.add('hide-me')
-
-  weatherContainer.classList.add('hide-me')
-  weatherContainer.classList.remove('show-me')
-  axios
-    .get(`/weather/${addressInput}`)
-    .then(function (response) {
-      loadingSpinner.classList.toggle('show-me')
-      if (!response.data.error) {
-        renderWeather(response.data)
-        renderHourly(response.data.hourlyWeather)
-      } else if (response.data.error) {
-        errorMessage.classList.add('show-me')
-        errorMessage.classList.remove('hide-me')
-        errorMessage.innerHTML = response.data.error
-      } else {
-        errorMessage.classList.add('show-me')
-        errorMessage.classList.remove('hide-me')
-      }
-    })
-    .catch(function (error) {
-      loadingSpinner.classList.toggle('show-me')
-      errorMessage.classList.add('show-me')
-      errorMessage.classList.remove('hide-me')
-      errorMessage.innerHTML = 'Are you sure that is a valid address?'
-      console.log(error)
-    })
+function handleErrors(e) {
+  errorMessage.classList.add('show-me')
+  errorMessage.classList.remove('hide-me')
+  errorMessage.innerHTML = 'Are you sure that is a valid address?'
+  console.error(e)
 }

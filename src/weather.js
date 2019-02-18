@@ -5,7 +5,7 @@ require('dotenv').config()
 const DARKSKY_KEY = process.env.DARKSKY_KEY
 const GOOGLE_KEY = process.env.GOOGLE_KEY
 
-exports.getWeather = async (addressInput) => {
+exports.processAddress = async (addressInput) => {
   try {
     const encodedAddress = encodeURIComponent(addressInput)
     const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${GOOGLE_KEY}`
@@ -24,14 +24,8 @@ exports.getWeather = async (addressInput) => {
     const address = geocode.data.results[0].formatted_address
     const lat = geocode.data.results[0].geometry.location.lat
     const lng = geocode.data.results[0].geometry.location.lng
-    const weatherUrl = `https://api.darksky.net/forecast/${DARKSKY_KEY}/${lat},${lng}?units=si`
 
-    const weather = await axios.get(weatherUrl)
-
-    return {
-      weather,
-      address,
-    }
+    return await this.getWeather(address, lat, lng)
   } catch (e) {
     let errorMessage = e.message
     if (e.code === 'ENOTFOUND') {
@@ -39,7 +33,22 @@ exports.getWeather = async (addressInput) => {
     } else {
       errorMessage = e.message
     }
-    errorMessage = "Couldn't get any weather data :("
-    console.log(e.message)
+    console.error(errorMessage)
+  }
+}
+
+exports.getWeather = async (address, lat, lng) => {
+  const weatherUrl = `https://api.darksky.net/forecast/${DARKSKY_KEY}/${lat},${lng}?units=si`
+
+  try {
+    const weather = await axios.get(weatherUrl)
+    console.log('WEATHER!!', weather);
+    return {
+      weather,
+      address,
+    }
+  }
+  catch (e) {
+    console.error(e.message)
   }
 }
