@@ -18,6 +18,7 @@ body {
   font-size: 11px;
   min-height: 90vh;
   position: relative;
+  background: #f9f9f9;
 }
 
 
@@ -36,8 +37,20 @@ padding-bottom: 120px;
 }
 
 form {
-
   display: flex;
+}
+
+.white {
+  background-color: white;
+}
+
+.row.hourly-row {
+  background-color: #f9f9f9;
+  margin-bottom: 0;
+}
+
+.row.hourly-row:nth-child(2n) {
+  background-color: white;
 }
 
 .form-group {
@@ -78,8 +91,6 @@ font-weight: 100;
 
 .current-icon {
   width: 60px;
-
-  transform: translateX(-20px);
 }
 
 .weather-junk {
@@ -96,8 +107,7 @@ font-weight: 100;
 }
 
 .weather-col {
-  background-color: #fff;
-  padding: 5px;
+  padding: 10px 5px;
 }
 
 .row {
@@ -108,7 +118,7 @@ font-weight: 100;
 }
 
 .hourly-svg {
-  width:
+  width: 23px
 }
 
 .first-row, .hourly-time, .hourly-summary {
@@ -138,10 +148,6 @@ font-weight: 100;
 }
 
 
-.hourly-svg {
-  height: 27px;
-}
-
 .hourly-svg__col {
   transform: translateY(-9px);
 }
@@ -160,14 +166,17 @@ font-weight: 100;
     font-size: 14px;
   }
 
+  .hourly-svg__col {
+    transform: translateY(0px);
+  }
+  
+
   .current-icon {
     background-color: transparent;
     width: 70px;
   }
 
-  .hourly-svg {
-    height: 30px;
-  }
+
 
   .address-error {
     font-size: 26px;
@@ -195,9 +204,7 @@ font-weight: 100;
   .current-icon {
     width: 100px;
   }
-  .hourly-svg {
-    height: 35px;
-  }
+
 
   .address-error {
     font-size: 30px;
@@ -207,11 +214,6 @@ font-weight: 100;
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-
-
-  .hourly-svg {
-    height: 40px;
-  }
 
   .address-error {
     font-size: 35px;

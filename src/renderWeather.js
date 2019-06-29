@@ -1,4 +1,4 @@
-const moment = require('moment')
+const moment = require('moment');
 
 const cities = [
   'eg. Bundi India',
@@ -10,27 +10,27 @@ const cities = [
   'eg. Praia de Belas, Porto Alegre - RS, Brazil',
   'eg. Geylang East Ave 3, Singapore 389731',
   'eg. Chicalim, Vasco, South Goa, Goa 403711, India',
-]
+];
 
 exports.renderWeather = ({ weather, address }) => {
   // const celsius = temp => ((temp - 32) / 1.8).toFixed(1)
   const getIcon = (iconName) => {
-    if (iconName === 'clear-night') return 'Moon.svg'
-    else if (iconName === 'rain') return 'Cloud-Drizzle-Alt.svg'
-    else if (iconName === 'snow') return 'Cloud-Snow-Alt.svg'
-    else if (iconName === 'sleet') return 'Cloud-Hail-Alt.svg'
-    else if (iconName === 'wind') return 'Wind.svg'
-    else if (iconName === 'fog') return 'Cloud-Fog.svg'
-    else if (iconName === 'cloudy') return 'Cloud.svg'
-    else if (iconName === 'partly-cloudy-day') return 'Cloud-Sun.svg'
-    else if (iconName === 'partly-cloudy-night') return 'Cloud-Moon.svg'
-    else if (iconName === 'hail') return 'Cloud-Hail-Alt.svg'
-    else if (iconName === 'thunderstorm') return 'Cloud-Lightning.svg'
-    else if (iconName === 'tornado') return 'Tornado.svg'
-    return 'Sun.svg'
-  }
+    if (iconName === 'clear-night') return 'Moon.svg';
+    else if (iconName === 'rain') return 'Cloud-Drizzle-Alt.svg';
+    else if (iconName === 'snow') return 'Cloud-Snow-Alt.svg';
+    else if (iconName === 'sleet') return 'Cloud-Hail-Alt.svg';
+    else if (iconName === 'wind') return 'Wind.svg';
+    else if (iconName === 'fog') return 'Cloud-Fog.svg';
+    else if (iconName === 'cloudy') return 'Cloud.svg';
+    else if (iconName === 'partly-cloudy-day') return 'Cloud-Sun.svg';
+    else if (iconName === 'partly-cloudy-night') return 'Cloud-Moon.svg';
+    else if (iconName === 'hail') return 'Cloud-Hail-Alt.svg';
+    else if (iconName === 'thunderstorm') return 'Cloud-Lightning.svg';
+    else if (iconName === 'tornado') return 'Tornado.svg';
+    return 'Sun.svg';
+  };
 
-  const { offset } = weather
+  const { offset } = weather;
   const {
     temperature,
     icon,
@@ -44,10 +44,10 @@ exports.renderWeather = ({ weather, address }) => {
     uvIndex,
     visibility,
     time,
-  } = weather.currently
+  } = weather.currently;
 
   const hourlyWeather = weather.hourly.data
-    .splice(1, 25) // from next hour to 24h onwards
+    .splice(1, 49) // from next hour to 24h onwards
     .map(hourly => ({
       timeByHour: moment.utc((hourly.time + offset * 3600) * 1000).format('ddd H:mm'),
       icon: getIcon(hourly.icon),
@@ -56,7 +56,7 @@ exports.renderWeather = ({ weather, address }) => {
       precipProbability: (hourly.precipProbability * 100).toFixed(0),
       cloudCover: (hourly.cloudCover * 100).toFixed(0),
       wind: hourly.windSpeed.toFixed(1),
-    }))
+    }));
 
   const renderData = {
     showWeather: true,
@@ -78,6 +78,6 @@ exports.renderWeather = ({ weather, address }) => {
     uvIndex,
     visibility,
     hourlyWeather,
-  }
-  return renderData
-}
+  };
+  return renderData;
+};

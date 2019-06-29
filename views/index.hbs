@@ -58,11 +58,8 @@
           <div class="col-xs-4 weather-col">Pressure: <span class="pressure"></span>hPa</div>
         </div>
 
-        <div class="row">
-          <div class="col-xs-3 weather-col first-row">Hourly forecast</div>
-          <div class="col-xs-1 weather-col first-row"> </div>
-          <div class="col-xs-2 weather-col first-row"> </div>
-          <div class="col-xs-2 weather-col first-row"> </div>
+        <div class="row white">
+          <div class="col-xs-8 weather-col first-row">Hourly forecast</div>
           <div class="col-xs-1 weather-col first-row">&#x2614</div>
           <div class="col-xs-1 weather-col first-row">&#x26C5</div>
           <div class="col-xs-1 weather-col first-row">&#x1F32C</div>
@@ -80,19 +77,15 @@
           <div class="col-xs-1 weather-col">{{this.wind}}m/s</div>
         </div> -->
         </div>
-
-
-
-
-
+        <button id="showMoreBtn" style="margin-top: 20px;" type="button" class="btn btn-default">Fetch more!</button>
       </div>
     </div>
 
     <footer class="footer">
       <h2>Keep your feet dry</h2>
 
-      <p class="text-muted">© <a href={{homepage}}>Simeon Kerkola</a> {{getCurrentYear}} Source Code available under
-        MIT license <a href="{{wetSocksGithub}}">here.</a>
+      <p class="text-muted">© <a href={{homepage}}>Simeon Kerkola</a> {{getCurrentYear}} Source Code available
+ <a href="{{wetSocksGithub}}">here.</a>
         <br><span class="shout-out">Powered by <a href="https://darksky.net/poweredby/">Dark Sky</a></p></span>
 
     </footer>
