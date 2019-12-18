@@ -6,7 +6,7 @@ const DARKSKY_KEY = process.env.DARKSKY_KEY;
 const GOOGLE_KEY = process.env.GOOGLE_KEY;
 
 exports.processAddress = async (addressInput) => {
-  return await this.getWeather();
+  // return await this.getWeather();
 
   try {
     const encodedAddress = encodeURIComponent(addressInput);
@@ -39,9 +39,9 @@ exports.processAddress = async (addressInput) => {
   }
 };
 
-exports.getWeather = async (address = 'test', lat, lng) => {
-  // const weatherUrl = `https://api.darksky.net/forecast/${DARKSKY_KEY}/${lat},${lng}?units=si`;
-  const weatherUrl = `https://api.darksky.net/forecast/5b05469397c05086e48a473a3c2bda80/37.8267,-122.4233?units=si`;
+exports.getWeather = async (address, lat, lng) => {
+  const weatherUrl = `https://api.darksky.net/forecast/${DARKSKY_KEY}/${lat},${lng}?units=si`;
+  // const weatherUrl = `https://api.darksky.net/forecast/5b05469397c05086e48a473a3c2bda80/37.8267,-122.4233?units=si`;
 
   try {
     const weather = await axios.get(weatherUrl);

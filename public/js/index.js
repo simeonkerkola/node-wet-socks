@@ -52,9 +52,10 @@ function renderHourly(hourly) {
         '°C</div>' +
         '<div class="col-xs-2 weather-col">' +
         hourly[i].precipProbability +
-        '%'+
-          hourly[i].precipIntensity +
-          'mm</div>' +
+        '% '+ '<span class="small light">'+
+           hourly[i].precipIntensity 
+            +
+          'mm</span></div>' +
         '<div class="col-xs-1 weather-col">' +
           hourly[i].cloudCover +
         '%</div>' +
@@ -65,8 +66,9 @@ function renderHourly(hourly) {
     
         rowDiv+
          '<div class=" col-xs-12 weather-col hourly-summary">' +
-          hourly[i].summary +
+       '<span class="small">'+hourly[i].summary+'</span> '   +
         '</div>' 
++        '</div>' 
         +'</div>',
     );
 

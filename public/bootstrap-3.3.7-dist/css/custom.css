@@ -36,6 +36,10 @@ padding-bottom: 120px;
   width: 100%;
 }
 
+.light {
+  color: #333;
+}
+
 form {
   display: flex;
 }
@@ -49,10 +53,7 @@ form {
   margin-bottom: 0;
 }
 
-.hourly-row:nth-child(3n) {
-  background-color: white;
-}
-.hourly-row:nth-child(4n) {
+.hourly-row:nth-child(2n) {
   background-color: white;
 }
 
