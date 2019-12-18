@@ -44,6 +44,7 @@ exports.renderWeather = ({ weather, address }) => {
     uvIndex,
     visibility,
     time,
+    precipIntensity
   } = weather.currently;
 
   const hourlyWeather = weather.hourly.data
@@ -56,6 +57,7 @@ exports.renderWeather = ({ weather, address }) => {
       precipProbability: (hourly.precipProbability * 100).toFixed(0),
       cloudCover: (hourly.cloudCover * 100).toFixed(0),
       wind: hourly.windSpeed.toFixed(1),
+      precipIntensity: hourly.precipIntensity.toFixed(1),
     }));
 
   const renderData = {
@@ -73,6 +75,7 @@ exports.renderWeather = ({ weather, address }) => {
     humidity: (humidity * 100).toFixed(0),
     cloudCover: (cloudCover * 100).toFixed(0),
     pressure: pressure.toFixed(2),
+    precipIntensity:precipIntensity.toFixed(1),
     windSpeed,
     windGust,
     uvIndex,

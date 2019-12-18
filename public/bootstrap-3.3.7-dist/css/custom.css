@@ -44,12 +44,15 @@ form {
   background-color: white;
 }
 
-.row.hourly-row {
+.hourly-row {
   background-color: #f9f9f9;
   margin-bottom: 0;
 }
 
-.row.hourly-row:nth-child(2n) {
+.hourly-row:nth-child(3n) {
+  background-color: white;
+}
+.hourly-row:nth-child(4n) {
   background-color: white;
 }
 

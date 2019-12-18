@@ -30,9 +30,12 @@ function renderHourly(hourly) {
   for (var i = 0; i < hourly.length; i++) {
     var rowDiv;
     var isHidden = i > 25;
-    if (isHidden) rowDiv = '<div class="row hourly-row hide-me">';
-    else rowDiv = '<div class="row hourly-row">';
+    if (isHidden) rowDiv = '<div class="row hide-me">';
+    else rowDiv = '<div class="row">';
+    var hourlyRow = '<div class="hourly-row">';
+
     rows.push(
+      hourlyRow+
       rowDiv +
         '<div class="col-xs-2 weather-col hourly-time">' +
         hourly[i].timeByHour +
@@ -43,22 +46,28 @@ function renderHourly(hourly) {
         hourly[i].icon +
         '"' +
         '"/></div>' +
-        '<div class="col-xs-3 weather-col hourly-summary">' +
-        hourly[i].summary +
-        '</div>' +
-        '<div class="col-xs-2 weather-col">' +
+        
+        '<div class="col-xs-1 weather-col">' +
         hourly[i].temp +
         '°C</div>' +
-        '<div class="col-xs-1 weather-col">' +
+        '<div class="col-xs-2 weather-col">' +
         hourly[i].precipProbability +
+        '%'+
+          hourly[i].precipIntensity +
+          'mm</div>' +
+        '<div class="col-xs-1 weather-col">' +
+          hourly[i].cloudCover +
         '%</div>' +
         '<div class="col-xs-1 weather-col">' +
-        hourly[i].cloudCover +
-        '%</div>' +
-        '<div class="col-xs-1 weather-col">' +
-        hourly[i].wind +
+          hourly[i].wind +
         'm/s</div>' +
-        '</div>',
+        '</div>' +
+    
+        rowDiv+
+         '<div class=" col-xs-12 weather-col hourly-summary">' +
+          hourly[i].summary +
+        '</div>' 
+        +'</div>',
     );
 
     weatherHourly.innerHTML = ''; // remove old hourly data before rerendering
